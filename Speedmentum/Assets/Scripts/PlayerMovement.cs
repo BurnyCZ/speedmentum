@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     1) udělat to tak aby šel updatovat movement bez toho aby byla závislost na growingValue, ale místo toho se to jen přišetlo/odečetlo od    předchozí value
     2) structure code
     3) rozdelit skripty na gamemode change, gravity change, pri jakych eventech se zvysi velocity
-    4) probuilder
     5) fix jumping glitches na arena mapě
 
     */
@@ -34,15 +33,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //this changes the mode to the next one
-        if (Input.GetKeyDown(KeyCode.M)) //if changing mode button was pressed
-        {
-            growingValue = 1; //set to default
-            mode.ChangeMode(); //calls a method changemode from ModeController.cs, changes the mode to the next one           
-        }
-        Movement(mode.GetMode()); //the argument calls a method getmode from ModeController.cs, returns which mode is active right now
-
         
+        Movement(mode.GetMode()); //the argument calls a method getmode from ModeController.cs, returns which mode is active right now
+        //growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1; !!!!!!!!!!!!!!!!!§ fix
     }
 
     public void Movement(int mode)
