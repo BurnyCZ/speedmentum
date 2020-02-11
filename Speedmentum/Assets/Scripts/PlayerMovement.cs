@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    /*
+    toDo:
+    1) udělat to tak aby šel updatovat movement bez toho aby byla závislost na growingValue, ale místo toho se to jen přišetlo/odečetlo od    předchozí value
+    2) structure code
+    3) rozdelit skripty na gamemode change, gravity change, pri jakych eventech se zvysi velocity
+    3) probuilder
+
+    call method from different script in unity
+
+
+
+
+
+    */
+    public ModeController mode;
+
     public CharacterController controller;
 
     public float speed;
@@ -19,11 +35,7 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded;
 
     public float growingValue = 1f;
-
-    bool[] modes = new bool[] { true, false , false};
-    //0 = basic
-    //1 = increasingSpeed
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -31,13 +43,17 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M)) //if changing mode button was pressed
         {
             growingValue = 1; //set to default
-            ChangeMode();            
+            mode.ChangeMode(); //calls a method changemode from ModeController.cs , changes the mode to the next one           
         }
-        Movement(GetMode());
+        Debug.Log(mode.GetMode());
+        Movement(mode.GetMode()); //the argument calls a method getmode from ModeController.cs, returns which mode is active right now
+
+        
     }
 
     public void Movement(int mode)
     {
+        //Debug.Log(mode);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
             //creates a tiny invisible sphere on player's foot with specified radius groundDistance, and if it collides with anything in groundMask, then isGrounded will set to true, if not, then false
 
@@ -87,37 +103,5 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("move " + move);
     }
 
-    public int GetMode() //returns 1 of which 
-    {
-        for (int i = 0; i < modes.Length; ++i) //go through the modes array
-        {
-            if (modes[i]) //if true found
-            return i; //return at which index it is
-        }
-        return 0; //impossible scenario i think
-    }
-
-    public void ChangeMode()
-    {
-        {
-            for (int i = 0; i < modes.Length; ++i)//go through the whole modes array
-            {
-                if (modes[i]) //if you find a value thats true (active mode), go in the loop
-                {
-                    if (i == modes.Length - 1) //if the true value is at the last index
-                    {
-                        modes[i] = false; //set it to false
-                        modes[0] = true; //set first one to true
-                        break; //stop
-                    }
-                    else //if the true value wasnt at last index
-                    {
-                        modes[i] = false; //set it to false
-                        modes[i + 1] = true; //set the next one to true (activate it)
-                        break; //stop
-                    }
-                }
-            }
-        }
-    }
+    
 }
