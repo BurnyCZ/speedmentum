@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ModeController : MonoBehaviour
 {
     public Text modeText;
-    string[] begginingTextParts = { "[M] Mode: ", "Basic", "\r\n", "[N] Modifiers: ", "None"};//list of possible strings that will together make the final text in GUI
+    string[] begginingTextParts = { "[M] Mode: ", "Basic", "\r\n", "[N] Modifiers: "};//list of possible strings that will together make the final text in GUI
     string[] modesTextParts = { "Basic", "test1", "test2"}; //modes
     string[] modifiersTextParts = {"None", "Increasing Speed", "Mouse Shake", "test1", "test2" }; //modifiers
     List<string> finalStringParts = new List<string>(); //list of strings that WILL together make the final text in GUI
@@ -21,6 +21,8 @@ public class ModeController : MonoBehaviour
     //2 = mouseShake
     //3 = test
     //implement combos
+
+    int[] trueValuesIndexes = new int[0];
 
     void Start()
     {
@@ -50,7 +52,7 @@ public class ModeController : MonoBehaviour
         modeText.text = finalString; //shows the string on the screen
     }
 
-    public int GetMode() //returns 1 of which 
+    public int GetMode() //returns 1 of which  mode is active
     {
         for (int i = 0; i < modes.Length; ++i) //go through the modes array
         {
@@ -93,30 +95,32 @@ public class ModeController : MonoBehaviour
 
     public void ChangeModifier()
     {
-        
-        for (int i = 0; i < modifiers.Length; ++i)//go through the whole modes array
+        int amountOfTrueValues = 0;
+        trueValuesIndexes = new int[modifiers.Length]; //int[], array of where true values are located in the modifier array
+        for (int i = 0; i < modifiers.Length; i++)
         {
-            if (modifiers[i]) //if you find a value thats true (active mode), go in the loop
+            trueValuesIndexes[i] = 69420; //fill the whole array with garbage value
+        }
+        for (int i = 0; i < modifiers.Length; ++i)//go through the whole modifiers array
+        {
+            if (modifiers[i] == true) //if you find a true value in modifier array
             {
-                if (i == modifiers.Length - 1) //if the true value is at the last index
-                {
-                    modifiers[i] = false; //set it to false
-                    modifiers[0] = true; //set first one to true
-                    //GUI text change begin
-                    finalStringParts[4] = modifiersTextParts[0]; //last mode -> basic (first mode)
-                    //GUI text change stop
-                    break; //stop
-                }
-                else //if the true value wasnt at last index
-                {
-                    modifiers[i] = false; //set it to false
-                    modifiers[i + 1] = true; //set the next one to true (activate it)
-                    //GUI text change begin
-                    finalStringParts[4] = modifiersTextParts[i+1]; //last mode -> i+1 mode
-                    //GUI text change stop
-                    break; //stop
-                }
+                trueValuesIndexes[amountOfTrueValues] = i; //save its location to the array (first find will be at index 0, 2nd find at index 1 etc.)
+                amountOfTrueValues++; //counter that tells how many times "true" is in the modifier array (for combinations)
             }
         }
+        AddModifierToFinalStrings();// (amountOfTrueValues); 
     }
+    public void AddModifierToFinalStrings()//(int amountOfTrueValues)
+    {
+        for (int i = 0; trueValuesIndexes[i] != 69420; i++) //goes through the indexes and if one isnt garbage value (if 2 are activated then the array will have normal values at index 0 and 1 and garbage values at other indexes
+        {
+                while (finalStringParts.Count > 4)
+                {
+                    finalStringParts.RemoveAt(finalStringParts.Count - 1); //this makes it so that when there's one modifier, its not added again but rather delted and then added again (or one is deleted and another one is added, not just appended)
+                }
+            finalStringParts.Add(modifiersTextParts[trueValuesIndexes[i]]); //then it adds it to the finalstrings (trueValuesIndexes have numbers that say at which index at modifiersTextParts is an active modifier
+        }
+    }
+
 }
