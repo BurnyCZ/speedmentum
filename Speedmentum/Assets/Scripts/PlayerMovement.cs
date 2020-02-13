@@ -12,16 +12,17 @@ public class PlayerMovement : MonoBehaviour
     5) fix jumping glitches na arena mapě
 
     */
-    public ModeController mode; //object that will help us call methods from ModeController.cs
 
     public CharacterController controller;
+
+    //public ModeController mode; //object that will help us call methods from ModeController.cs
 
     public float speed;
     public float gravity = -19.81f; //default gravity
     public float jumpHeight = 3f;
 
     public Transform groundCheck; //invisible object on player's feet
-    public float groundDistance = 0.2f; //radius of the invisible sphere
+    public float groundDistance = 0.4f; //radius of the invisible sphere
     public LayerMask groundMask; //controlling which objects the sphere should check for, so that it doesnt check isGrounded as true when standing on the player
 
     Vector3 velocity;
@@ -33,15 +34,20 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        Movement(mode.GetMode()); //the argument calls a method getmode from ModeController.cs, returns which mode is active right now
+
+        //Movement(mode.GetMode()); //the argument calls a method getmode from ModeController.cs, returns which mode is active right now
+        Movement();
+
+
+
         //growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1;//growingValue = 1; !!!!!!!!!!!!!!!!!§ fix
     }
 
-    public void Movement(int mode)
+    public void Movement()
     {
         //Debug.Log(mode);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        
             //creates a tiny invisible sphere on player's foot with specified radius groundDistance, and if it collides with anything in groundMask, then isGrounded will set to true, if not, then false
 
             if (isGrounded && velocity.y < 0)
@@ -54,41 +60,41 @@ public class PlayerMovement : MonoBehaviour
 
         /* first dumb idea - https://pastebin.com/CFXXtY8s*/
 
-        if (mode == 1) //if mode is increasingSpeed
-        {
-            move = (transform.right * x + transform.forward * z) * speed * growingValue;
-            growingValue = growingValue * 1.001f;
-        }
-        else //if mode is Basic
-        {
-            move = (transform.right * x + transform.forward * z) * speed; //transform right is red arrow vector, from -1 to 1, forward is blue axis
+        //if (mode == 1) //if mode is increasingSpeed
+        //{
+        //    move = (transform.right * x + transform.forward * z) * speed * growingValue;
+        //    growingValue = growingValue * 1.001f;
+        //}
+        //else //if mode is Basic
+        //{
+        move = (transform.right * x + transform.forward * z) * speed; //transform right is red arrow vector, from -1 to 1, forward is blue axis
                                                                                   //those arrows are multiplied by x or z, which are 0 if nothing is pressed or 1 if wasd is pressed
                                                                                   //then its added together, forming a vector pointing to the direction where i wanna go
                                                                                   //and multiplied by the speed constant
-        }
+        //}
 
         controller.Move(move * Time.deltaTime);
 
 
-            /*first dumb idea  - gravity multiplier makes it grow more each time, but its would be better to square the velocity by gravity multiplier so it grows exponencialy
-            velocity = velocity * gravityMultiplier;
-            gravityMultiplier++;*/
+        /*first dumb idea  - gravity multiplier makes it grow more each time, but its would be better to square the velocity by gravity multiplier so it grows exponencialy
+        velocity = velocity * gravityMultiplier;
+        gravityMultiplier++;*/
 
-            if (Input.GetButton("Jump") && isGrounded) //jumping
-            {
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); //why? physics https://imgur.com/a/BQMlYuj
-            }
+        if (Input.GetButton("Jump") && isGrounded) //jumping
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); //why? physics https://imgur.com/a/BQMlYuj
+        }
 
-            velocity.y = velocity.y + gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
-            //2x delta time - ^2, and why its like this - physics https://imgur.com/a/ulUTu7D
+        velocity.y = velocity.y + gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+        //2x delta time - ^2, and why its like this - physics https://imgur.com/a/ulUTu7D
 
-            //Debug.Log("transform.right " + transform.right);
-            //Debug.Log("x " + x);
-            //Debug.Log("transform.forward" + transform.forward);
-            //Debug.Log("z " + z);
-            //Debug.Log("move " + move);
+        //Debug.Log("transform.right " + transform.right);
+        //Debug.Log("x " + x);
+        //Debug.Log("transform.forward" + transform.forward);
+        //Debug.Log("z " + z);
+        //Debug.Log("move " + move);
     }
 
-    
+
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ModeController : MonoBehaviour
 {
     public Text modeText;
+    
     string[] begginingTextParts = { "[M] Mode: ", "Basic", "\r\n", "[N] Modifiers: "};//list of possible strings that will together make the final text in GUI
     string[] modesTextParts = { "Basic", "test1", "test2"}; //modes
     string[] modifiersTextParts = {"None", "Increasing Speed", "Mouse Shake", "test1", "test2" }; //modifiers
@@ -32,6 +33,7 @@ public class ModeController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("test");
         //this changes the mode to the next one
         if (Input.GetKeyDown(KeyCode.M)) //if changing mode button was pressed
         {
