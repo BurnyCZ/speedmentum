@@ -7336,8 +7336,9 @@ GameObject:
   m_Component:
   - component: {fileID: 841976860}
   - component: {fileID: 841976863}
-  - component: {fileID: 841976862}
   - component: {fileID: 841976861}
+  - component: {fileID: 841976862}
+  - component: {fileID: 841976864}
   m_Layer: 0
   m_Name: First Person Player
   m_TagString: Untagged
@@ -7386,16 +7387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448a3ea013c850f49ac486b01bbd4263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 841976863}
-  speed: 12
-  gravity: -19.62
-  jumpHeight: 3
-  groundCheck: {fileID: 1201092145}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  growingValue: 1
 --- !u!143 &841976863
 CharacterController:
   m_ObjectHideFlags: 0
@@ -7414,6 +7405,30 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &841976864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841976859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 218bd143f6e26c94eb4b49febdf47729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 841976863}
+  groundCheck: {fileID: 1201092145}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
+  isEnabled: 1
+  isIncreasingSpeedEnabled: 1
+  speed: 12
+  gravity: -19.81
+  jumpHeight: 3
+  groundDistance: 0.4
+  growingValue: 1
 --- !u!1 &851396795
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MovementModeController : MonoBehaviour
 {
+
     //enum modes { Basic, LowGravity, Test2}
     //enum modifiers { IncreasingSpeed, DecreasingSpeed, Test } //descreasing speed should be MouseShake
 
