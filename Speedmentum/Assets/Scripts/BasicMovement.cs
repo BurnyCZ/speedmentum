@@ -29,10 +29,6 @@ public class BasicMovement : MonoBehaviour
 
     void Update()
     {
-        if (isEnabled)
-        {
-            Movement();
-        }
         
     }
 

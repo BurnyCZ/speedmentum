@@ -7,15 +7,16 @@ using UnityEngine.UI;
 public class MovementMenu : MonoBehaviour
 {
     public GameObject movementMenu;
-    private bool onAndOff = true;
+    public bool onAndOff = true;
+
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            Debug.Log(onAndOff);
+            //Debug.Log(onAndOff);
             movementMenu.SetActive(onAndOff);
-            Debug.Log(onAndOff);
+            //Debug.Log(onAndOff);
             onAndOff = !onAndOff;
         }
     }
