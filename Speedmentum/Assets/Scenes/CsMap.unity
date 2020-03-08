@@ -2973,7 +2973,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.008102417, y: -0.0012741089}
+  m_AnchoredPosition: {x: 0, y: 1000}
   m_SizeDelta: {x: 1065.7, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &324902282
@@ -5510,7 +5510,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14162
+  m_Name: pb_Mesh14164
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6889,7 +6889,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14572
+  m_Name: pb_Mesh14574
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7354,6 +7354,8 @@ GameObject:
   - component: {fileID: 841976863}
   - component: {fileID: 841976861}
   - component: {fileID: 841976864}
+  - component: {fileID: 841976865}
+  - component: {fileID: 841976862}
   m_Layer: 0
   m_Name: First Person Player
   m_TagString: Untagged
@@ -7411,6 +7413,32 @@ MonoBehaviour:
   - {fileID: 26082514}
   enabledModes: 
   basicMovement: {fileID: 841976864}
+  lowGravity: {fileID: 841976865}
+  increasingSpeed: {fileID: 841976862}
+--- !u!114 &841976862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841976859}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22ca8407d2821f45bd6557b39e70e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 841976863}
+  groundCheck: {fileID: 1201092145}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
+  isEnabled: 1
+  isIncreasingSpeedEnabled: 1
+  speed: 12
+  gravity: -19.81
+  jumpHeight: 3
+  groundDistance: 0.4
+  growingValue: 1
 --- !u!143 &841976863
 CharacterController:
   m_ObjectHideFlags: 0
@@ -7436,7 +7464,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841976859}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 218bd143f6e26c94eb4b49febdf47729, type: 3}
   m_Name: 
@@ -7447,9 +7475,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   isEnabled: 1
-  isIncreasingSpeedEnabled: 1
+  isIncreasingSpeedEnabled: 0
   speed: 12
   gravity: -19.81
+  jumpHeight: 3
+  groundDistance: 0.4
+  velocity: {x: 0, y: 0, z: 0}
+  growingValue: 1
+--- !u!114 &841976865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841976859}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddd7ba56a9493c43b8586f75e58cd46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 841976863}
+  groundCheck: {fileID: 1201092145}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
+  isEnabled: 1
+  isIncreasingSpeedEnabled: 0
+  speed: 12
+  gravity: -5
   jumpHeight: 3
   groundDistance: 0.4
   growingValue: 1
@@ -7545,6 +7598,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 308049147}
+  - {fileID: 1932008399}
   m_Father: {fileID: 208447437}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7565,7 +7619,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce77e8c104b33f429d603c4156bc49c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementMenu: {fileID: 308049146}
+  movementMenuPos: {fileID: 308049147}
+  isEnabled: 0
 --- !u!1 &881097542
 GameObject:
   m_ObjectHideFlags: 0
@@ -7720,7 +7775,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14524
+  m_Name: pb_Mesh14526
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8343,7 +8398,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14560
+  m_Name: pb_Mesh14578
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -28509,6 +28564,178 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870942167}
   m_CullTransparentMesh: 0
+--- !u!1 &1932008398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1932008399}
+  - component: {fileID: 1932008401}
+  - component: {fileID: 1932008400}
+  - component: {fileID: 1932008402}
+  m_Layer: 5
+  m_Name: VelocityGUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1932008399
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932008398}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 851396799}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -260}
+  m_SizeDelta: {x: 1065.7, y: 171.7}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1932008400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932008398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 0
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 1
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: dd2f02b1d5b217c4e88296b37469d233,
+    type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_outlineColor:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontSize: 50
+  m_fontSizeBase: 50
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_textAlignment: 514
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_firstOverflowCharacterIndex: -1
+  m_linkedTextComponent: {fileID: 0}
+  m_isLinkedTextComponent: 0
+  m_isTextTruncated: 0
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_ignoreRectMaskCulling: 0
+  m_ignoreCulling: 1
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_VertexBufferAutoSizeReduction: 1
+  m_firstVisibleCharacter: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_textInfo:
+    textComponent: {fileID: 1932008400}
+    characterCount: 1
+    spriteCount: 0
+    spaceCount: 0
+    wordCount: 1
+    linkCount: 0
+    lineCount: 1
+    pageCount: 1
+    materialCount: 1
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_spriteAnimator: {fileID: 0}
+  m_hasFontAssetChanged: 0
+  m_subTextObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1932008401
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932008398}
+  m_CullTransparentMesh: 0
+--- !u!114 &1932008402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932008398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18aeda1df4af7042a84abe5325fb9db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controler: {fileID: 841976863}
+  playerVelocity: 0
+  velocityGUI: {fileID: 1932008400}
 --- !u!1 &1963426859
 GameObject:
   m_ObjectHideFlags: 0
@@ -28819,7 +29046,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14186
+  m_Name: pb_Mesh14188
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

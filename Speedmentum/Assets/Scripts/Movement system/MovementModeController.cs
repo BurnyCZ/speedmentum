@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum Modes
+public enum Modes //this is global variable, each mod has its own enum value
 {
     Basic, //0
     LowGravity, //1
@@ -11,24 +11,21 @@ public enum Modes
     DecreasingSpeed, //4
     MouseShake //5
 }
+
 public class MovementModeController : MonoBehaviour
-{
+{ 
+    public static float velocity; //static = global promena
 
-    //enum modes { Basic, LowGravity, Test2}
-    //enum modifiers { IncreasingSpeed, DecreasingSpeed, Test } //descreasing speed should be MouseShake
-    public ButtonClickHandler[] buttonClickHandlers = new ButtonClickHandler[18];
+    public ButtonClickHandler[] buttonClickHandlers = new ButtonClickHandler[18]; //includes all buttons from the movementmenu inside so its possible to interact with them in this code (the button objects are set in unity editor)
 
-    public List<Modes> enabledModes = new List<Modes>();
+    public List<Modes> enabledModes = new List<Modes>(); //has all modes that are enabled currently, has nothing in it by default, when 1-9 or f1-f9 is pressed, it gets a new mode in it, and according to whats inside, the game is releasing certain physics updates every tick
 
-    public BasicMovement basicMovement;
-    
-    //1 = basic
-    //2 = LowGravity //strafing or just flying where you are going for example
-    //3 = HighGravity 
-    //4 = IncreasingSpeed
-    //5 = DecreasingSpeed
-    //6 = mouseShake
-    //7 = test
+    public BasicMovement basicMovement; //each mode has its own object so that its possible to interact with them
+    public LowGravity lowGravity;
+    public IncreasingSpeed increasingSpeed;
+
+    //the following line of code are used to find out how many units per second i move each tick
+    float lastXPos = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -36,27 +33,21 @@ public class MovementModeController : MonoBehaviour
         
     }
 
-    void ModeKeyPress(Modes mode)
-    {
-        if (!enabledModes.Contains(mode))
-        {
-            enabledModes.Add(mode);
-        }
-        else
-        {
-            enabledModes.Remove(mode);
-        }
-    }
-
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        for (int i = 0; i < enabledModes.Count; i++)
+        for (int i = 0; i < enabledModes.Count; i++) //every tick it checks which modes are enabled and according to that it updates the physics in those certain ways, each basicMovement, lowGravity etc. have their own update functions localized in their own script that are all attached to the player and being disabled/enabled on key presses
         {
             switch (enabledModes[i])
             {
                 case Modes.Basic:
-                    basicMovement.Movement();
+                    basicMovement.Movement(); //function that updates the physics - gets released every tick if its enabled
+                    break;
+                case Modes.LowGravity:
+                    lowGravity.Movement();
+                    break;
+                case Modes.IncreasingSpeed:
+                    increasingSpeed.Movement();
                     break;
             }
         }
@@ -69,7 +60,7 @@ public class MovementModeController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ModeKeyPress(Modes.Basic);
-            buttonClickHandlers[0].KeyPress(KeyCode.Alpha1);
+            buttonClickHandlers[0].KeyPress(KeyCode.Alpha1); //button pressed color animation on or off
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -156,6 +147,30 @@ public class MovementModeController : MonoBehaviour
             //ModeKeyPress(Modes.Basic);
             buttonClickHandlers[17].KeyPress(KeyCode.F9);
         }
+
+
+        //the following lines of code are used to find out how many units per second i move each tick
+        Debug.Log(transform.position.x - lastXPos);
+        lastXPos = transform.position.x;
+
+
+    }
+
+    void ModeKeyPress(Modes mode) //mode is an enum variable, each key press calls this function with its own enum variable corresponding to how its setup (1 - basic movement - on and off)
+    {
+        if (!enabledModes.Contains(mode)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+        {
+            enabledModes.Add(mode);
+        }
+        else
+        {
+            enabledModes.Remove(mode);
+        }
+
+
+        if (enabledModes.Contains(Modes.Basic)) basicMovement.enabled = true; else basicMovement.enabled = false; //if basic mode is active, it enables it, if its not active, it disables it for performance 
+        if (enabledModes.Contains(Modes.LowGravity)) lowGravity.enabled = true; else lowGravity.enabled = false;
+        if (enabledModes.Contains(Modes.IncreasingSpeed)) increasingSpeed.enabled = true; else increasingSpeed.enabled = false;
     }
 
 }

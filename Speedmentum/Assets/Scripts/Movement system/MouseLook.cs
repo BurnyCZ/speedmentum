@@ -5,7 +5,9 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour
 {
     public float mouseSensitivity;
-    
+
+    //public Transform camera;
+
     public Transform playerBody; //for rotating the model, which is locked to camera too
 
     float xRotation = 0f; //for rotating vertically
@@ -28,13 +30,22 @@ public class MouseLook : MonoBehaviour
         //not sure how Quaternions work (4d numbers) https://www.youtube.com/watch?v=SCbpxiCN0U0&list=PLW3Zl3wyJwWOpdhYedlD-yCB7WQoHf-My&index=33&t=0s
 
         playerBody.Rotate(Vector3.up * mouseX); //rotate function changes the rotation vector by the amount in the argument, Vector3.up is shortcut for (0,1,0), so for example 0.15*v=(0;0,15;0)
-        
-        
-        
-        
+
+
+
+
         //Debug.Log(Input.GetAxis("Mouse X"));
         //Debug.Log(Vector3.up * mouseX);
         //Debug.Log(Vector3.up);
         //Debug.Log(mouseX);
+
+        //Debug.Log(playerBody.rotation);
+
+        if (Input.GetKeyDown(KeyCode.L)) //look straight button, using it to find out how many units per second i move each tick
+        {
+            //playerBody.Rotate(new Vector3(0f, 0f, 0f));
+            playerBody.rotation = Quaternion.Euler(0f, -1f, 0f);
+            Debug.Log("L");
+        }
     }
 }

@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void Level1()
+    //each button in the menu calls certain function in here
+    public void Level1() 
     {
         SceneManager.LoadScene("Arena");
     }

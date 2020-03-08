@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicMovement : MonoBehaviour
+public class LowGravity : MonoBehaviour
 {
     public CharacterController controller;
     public Transform groundCheck;
@@ -12,7 +12,7 @@ public class BasicMovement : MonoBehaviour
     public bool isIncreasingSpeedEnabled = false;
 
     public float speed = 12;
-    public float gravity = -19.81f; //default gravity
+    public float gravity = -5; //default gravity
     public float jumpHeight = 3f;
 
     //public Transform groundCheck; //invisible object on player's feet
