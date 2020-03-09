@@ -18,7 +18,7 @@ public class MouseLook : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime; //Mouse X = how far did the mouse move on the x axis since the last frame, the faster you turn with mouse, the bigger the number is
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
@@ -44,7 +44,7 @@ public class MouseLook : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L)) //look straight button, using it to find out how many units per second i move each tick
         {
             //playerBody.Rotate(new Vector3(0f, 0f, 0f));
-            playerBody.rotation = Quaternion.Euler(0f, -1f, 0f);
+            playerBody.rotation = Quaternion.Euler(0f, 0f, 0f);
             Debug.Log("L");
         }
     }

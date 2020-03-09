@@ -18,7 +18,7 @@ public class MovementModeController : MonoBehaviour
 
     public ButtonClickHandler[] buttonClickHandlers = new ButtonClickHandler[18]; //includes all buttons from the movementmenu inside so its possible to interact with them in this code (the button objects are set in unity editor)
 
-    public List<Modes> enabledModes = new List<Modes>(); //has all modes that are enabled currently, has nothing in it by default, when 1-9 or f1-f9 is pressed, it gets a new mode in it, and according to whats inside, the game is releasing certain physics updates every tick
+    public static List<Modes> enabledModes = new List<Modes>(); //has all modes that are enabled currently, has nothing in it by default, when 1-9 or f1-f9 is pressed, it gets a new mode in it, and according to whats inside, the game is releasing certain physics updates every tick
 
     public BasicMovement basicMovement; //each mode has its own object so that its possible to interact with them
     public LowGravity lowGravity;
@@ -36,23 +36,36 @@ public class MovementModeController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        for (int i = 0; i < enabledModes.Count; i++) //every tick it checks which modes are enabled and according to that it updates the physics in those certain ways, each basicMovement, lowGravity etc. have their own update functions localized in their own script that are all attached to the player and being disabled/enabled on key presses
-        {
-            switch (enabledModes[i])
-            {
-                case Modes.Basic:
-                    basicMovement.Movement(); //function that updates the physics - gets released every tick if its enabled
-                    break;
-                case Modes.LowGravity:
-                    lowGravity.Movement();
-                    break;
-                case Modes.IncreasingSpeed:
-                    increasingSpeed.Movement();
-                    break;
-            }
-        }
+        //for (int i = 0; i < enabledModes.Count; i++) //every tick it checks which modes are enabled and according to that it updates the physics in those certain ways, each basicMovement, lowGravity etc. have their own update functions localized in their own script that are all attached to the player and being disabled/enabled on key presses
+        //{
+        //    switch (enabledModes[i])
+        //    {
+        //        case Modes.Basic:
+        //            basicMovement.Movement(); //function that updates the physics - gets released every tick if its enabled
+        //            break;
+        //        case Modes.LowGravity:
+        //            lowGravity.Movement();
+        //            break;
+        //        case Modes.IncreasingSpeed:
+        //            increasingSpeed.Movement();
+        //            break;
+        //    }
+        //}
+
+        if (enabledModes.Contains(Modes.Basic)) basicMovement.Movement();
 
 
+
+
+        //the following lines of code are used to find out how many units per second i move each tick
+        //Debug.Log((transform.position.x - lastXPos));
+        //lastXPos = transform.position.x;
+
+
+    }
+
+    void Update()
+    {
         //for (int i = 0; i<enabledModes.Count; i++)
         //{
         //    Debug.Log(enabledModes[i]);
@@ -149,10 +162,25 @@ public class MovementModeController : MonoBehaviour
         }
 
 
-        //the following lines of code are used to find out how many units per second i move each tick
-        Debug.Log(transform.position.x - lastXPos);
-        lastXPos = transform.position.x;
 
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            float slowTimeScale = UnityEngine.Random.Range(0.001f, 1f);
+            float fastTimeScale = UnityEngine.Random.Range(1.001f, 10f);
+            int randomBool = UnityEngine.Random.Range(0, 2);
+            if (randomBool == 0)
+            {
+                Time.timeScale = slowTimeScale;
+                Debug.Log("Timescale changed to " + slowTimeScale);
+            }
+            else
+            {
+                Time.timeScale = fastTimeScale;
+                Debug.Log("Timescale changed to " + fastTimeScale);
+            }
+
+            
+        }
 
     }
 
@@ -169,8 +197,8 @@ public class MovementModeController : MonoBehaviour
 
 
         if (enabledModes.Contains(Modes.Basic)) basicMovement.enabled = true; else basicMovement.enabled = false; //if basic mode is active, it enables it, if its not active, it disables it for performance 
-        if (enabledModes.Contains(Modes.LowGravity)) lowGravity.enabled = true; else lowGravity.enabled = false;
-        if (enabledModes.Contains(Modes.IncreasingSpeed)) increasingSpeed.enabled = true; else increasingSpeed.enabled = false;
+        //if (enabledModes.Contains(Modes.LowGravity)) lowGravity.enabled = true; else lowGravity.enabled = false;
+        //if (enabledModes.Contains(Modes.IncreasingSpeed)) increasingSpeed.enabled = true; else increasingSpeed.enabled = false;
     }
 
 }
