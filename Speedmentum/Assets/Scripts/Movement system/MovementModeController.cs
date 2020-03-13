@@ -24,8 +24,7 @@ public class MovementModeController : MonoBehaviour
     public LowGravity lowGravity;
     public IncreasingSpeed increasingSpeed;
 
-    //the following line of code are used to find out how many units per second i move each tick
-    float lastXPos = 0;
+    
 
     // Start is called before the first frame update
     void Start()

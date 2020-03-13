@@ -27,6 +27,10 @@ public class BasicMovement : MonoBehaviour
 
     public float growingValue = 1f;
     public float decreasingValue = 1f;
+    public float mouseShakeValue = 0f;
+
+    float mouseX;
+    float mouseY;
 
     void Update()
     {
@@ -35,7 +39,10 @@ public class BasicMovement : MonoBehaviour
 
     public void Movement()
     {
-
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
+        Debug.Log(mouseX);
+        Debug.Log(mouseY);
         //type float value, default 100
 
         gravity = -20f; //default gravity value, must be here because each update its set to that value first, and then depending on the combination of other gravity modifiers it adds or removes to that original value (might be better with multiple conditions? probs not) (might be better if the gravity was made as a slider instead)
@@ -65,6 +72,10 @@ public class BasicMovement : MonoBehaviour
                                                                             //then its added together, forming a vector pointing to the direction where i wanna go
                                                                             //and multiplied by the speed constant
                                                                             //}
+
+        //Debug.Log("velXY " + velocityXZ + " tr.right " + transform.right + " x " + x + " tr.for " + transform.forward + " z " + z );
+        //-> velXY (-6.2, 0.0, 15.8) tr.right (0.9, 0.0, -0.4) x -1 tr.for (0.4, 0.0, 0.9) z 1
+
         if (!MovementModeController.enabledModes.Contains(Modes.IncreasingSpeed) && !MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed)) //if no increasing or decreasing spee
         {
             decreasingValue = 1;
@@ -88,8 +99,27 @@ public class BasicMovement : MonoBehaviour
             }
         }
 
-        controller.Move(velocityXZ * Time.deltaTime); //forward backwards sideways
-
+        if (MovementModeController.enabledModes.Contains(Modes.MouseShake))
+        {
+            mouseShakeValue = mouseShakeValue + Math.Abs(mouseY);
+            if (velocityXZ.x > 0 && velocityXZ.z > 0)
+            {
+                velocityXZ = new Vector3(velocityXZ.x + mouseShakeValue, 0, velocityXZ.z + mouseShakeValue);
+            }
+            if (velocityXZ.x > 0 && velocityXZ.z < 0)
+            {
+                velocityXZ = new Vector3(velocityXZ.x + mouseShakeValue, 0, velocityXZ.z - mouseShakeValue);
+            }
+            if (velocityXZ.x < 0 && velocityXZ.z > 0)
+            {
+                velocityXZ = new Vector3(velocityXZ.x - mouseShakeValue, 0, velocityXZ.z + mouseShakeValue);
+            }
+            if (velocityXZ.x < 0 && velocityXZ.z < 0)
+            {
+                velocityXZ = new Vector3(velocityXZ.x - mouseShakeValue, 0, velocityXZ.z - mouseShakeValue);
+            }
+            
+        }
 
         /*first dumb idea  - gravity multiplier makes it grow more each time, but its would be better to square the velocity by gravity multiplier so it grows exponencialy
         velocity = velocity * gravityMultiplier;
@@ -102,16 +132,18 @@ public class BasicMovement : MonoBehaviour
             }
 
         if (!isGrounded) velocityY.y = velocityY.y + gravity * Time.deltaTime;
-        
 
-            controller.Move(velocityY * Time.deltaTime); //gravity
-                                                         //2x delta time - ^2, and why its like this - physics https://imgur.com/a/ulUTu7D
 
+
+        controller.Move(new Vector3(velocityXZ.x, velocityY.y, velocityXZ.z) * Time.deltaTime); //forward backwards sideways gravity, //2x delta time - ^2, and why its like this - physics https://imgur.com/a/ulUTu7D
         //Debug.Log("move " + (velocityXZ * Time.deltaTime*1000));
         //Debug.Log("velocity" + (velocityY * Time.deltaTime*1000));
         //Debug.Log(velocityY + velocityXZ);
-        MovementModeController.velocity = (velocityY + velocityXZ).magnitude;
+        MovementModeController.velocity = controller.velocity.magnitude;
         //4188538
+        //Debug.Log("added vel xz var " + velocityXZ);
+        //Debug.Log("added vel y var " + velocityY);
+        //Debug.Log("reading controller velocity " + controller.velocity);
 
 
     }

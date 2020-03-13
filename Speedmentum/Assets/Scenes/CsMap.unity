@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b226d47ac5dde47991c18d11166f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 100
+  mouseSensitivity: 2
   playerBody: {fileID: 841976860}
 --- !u!81 &202609844
 AudioListener:
@@ -7439,13 +7439,14 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  isEnabled: 1
   speed: 12
   gravity: 20
   jumpHeight: 3
   groundDistance: 0.4
   velocity: {x: 0, y: 0, z: 0}
   growingValue: 1
+  decreasingValue: 1
+  mouseShakeValue: 0
 --- !u!1 &851396795
 GameObject:
   m_ObjectHideFlags: 0
