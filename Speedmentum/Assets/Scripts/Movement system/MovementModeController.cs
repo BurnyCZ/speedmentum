@@ -15,16 +15,17 @@ public enum Modes //this is global variable, each mod has its own enum value
 public class MovementModeController : MonoBehaviour
 { 
     public static float velocity; //static = global promena
+    public static float velocityXZ;
+    public static float velocityY;
+    public static float velocityAboutToBeApplied; //static = global promena
+    public static float velocityXZAboutToBeApplied;
+    public static float velocityYAboutToBeApplied;
 
     public ButtonClickHandler[] buttonClickHandlers = new ButtonClickHandler[18]; //includes all buttons from the movementmenu inside so its possible to interact with them in this code (the button objects are set in unity editor)
 
     public static List<Modes> enabledModes = new List<Modes>(); //has all modes that are enabled currently, has nothing in it by default, when 1-9 or f1-f9 is pressed, it gets a new mode in it, and according to whats inside, the game is releasing certain physics updates every tick
 
-    public BasicMovement basicMovement; //each mode has its own object so that its possible to interact with them
-    public LowGravity lowGravity;
-    public IncreasingSpeed increasingSpeed;
-
-    
+    public BasicMovement basicMovement; //each mode has its own object so that its possible to interact with them    
 
     // Start is called before the first frame update
     void Start()

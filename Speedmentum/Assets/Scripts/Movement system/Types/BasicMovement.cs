@@ -9,16 +9,17 @@ public class BasicMovement : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundMask;
 
-    public float speed = 12;
-    public float gravity;// = -20f; //default gravity
-    public float jumpHeight = 3f;
+    float speed = 12;
+    float gravity;// = -20f; //default gravity
+    float jumpHeight = 3f;
 
     //public Transform groundCheck; //invisible object on player's feet
-    public float groundDistance = 0.4f; //radius of the invisible sphere
+    float groundDistance = 0.4f; //radius of the invisible sphere
     //public LayerMask groundMask; //controlling which objects the sphere should check for, so that it doesnt check isGrounded as true when standing on the player
 
     Vector3 velocityY;
     Vector3 velocityXZ;
+    Vector3 prevVelocityXZ;
     public Vector3 velocity;
 
     bool isGrounded;
@@ -27,22 +28,26 @@ public class BasicMovement : MonoBehaviour
 
     public float growingValue = 1f;
     public float decreasingValue = 1f;
-    public float mouseShakeValue = 0f;
+    public float mouseShakeValue;
 
     float mouseX;
     float mouseY;
 
-    void Update()
+    void Start()
     {
-
+        mouseShakeValue = 1f; //its here since for some reason without it if its initialized up there its by default set to 0 even tho i set it to 1 there?! wtf
     }
+    //void FixedUpdate()
+    //{
+    //    Debug.Log(mouseShakeValue);
+    //}
 
     public void Movement()
     {
-        mouseX = Input.GetAxis("Mouse X");
-        mouseY = Input.GetAxis("Mouse Y");
-        Debug.Log(mouseX);
-        Debug.Log(mouseY);
+        mouseX = Input.GetAxisRaw("Mouse X");
+        mouseY = Input.GetAxisRaw("Mouse Y");
+        //Debug.Log(mouseX);
+        //Debug.Log(mouseY);
         //type float value, default 100
 
         gravity = -20f; //default gravity value, must be here because each update its set to that value first, and then depending on the combination of other gravity modifiers it adds or removes to that original value (might be better with multiple conditions? probs not) (might be better if the gravity was made as a slider instead)
@@ -101,24 +106,9 @@ public class BasicMovement : MonoBehaviour
 
         if (MovementModeController.enabledModes.Contains(Modes.MouseShake))
         {
-            mouseShakeValue = mouseShakeValue + Math.Abs(mouseY);
-            if (velocityXZ.x > 0 && velocityXZ.z > 0)
-            {
-                velocityXZ = new Vector3(velocityXZ.x + mouseShakeValue, 0, velocityXZ.z + mouseShakeValue);
-            }
-            if (velocityXZ.x > 0 && velocityXZ.z < 0)
-            {
-                velocityXZ = new Vector3(velocityXZ.x + mouseShakeValue, 0, velocityXZ.z - mouseShakeValue);
-            }
-            if (velocityXZ.x < 0 && velocityXZ.z > 0)
-            {
-                velocityXZ = new Vector3(velocityXZ.x - mouseShakeValue, 0, velocityXZ.z + mouseShakeValue);
-            }
-            if (velocityXZ.x < 0 && velocityXZ.z < 0)
-            {
-                velocityXZ = new Vector3(velocityXZ.x - mouseShakeValue, 0, velocityXZ.z - mouseShakeValue);
-            }
-            
+            //Debug.Log(mouseShakeValue);
+            mouseShakeValue = mouseShakeValue + (Math.Abs(mouseY))/20;
+            velocityXZ = velocityXZ * mouseShakeValue;
         }
 
         /*first dumb idea  - gravity multiplier makes it grow more each time, but its would be better to square the velocity by gravity multiplier so it grows exponencialy
@@ -140,6 +130,13 @@ public class BasicMovement : MonoBehaviour
         //Debug.Log("velocity" + (velocityY * Time.deltaTime*1000));
         //Debug.Log(velocityY + velocityXZ);
         MovementModeController.velocity = controller.velocity.magnitude;
+        MovementModeController.velocityXZ = new Vector3(controller.velocity.x,0,controller.velocity.z).magnitude;
+        MovementModeController.velocityY = Math.Abs(controller.velocity.y); //same as new Vector3(0,controller.velocity.y,0).magnitude;
+        MovementModeController.velocityAboutToBeApplied = (velocityXZ + velocityY).magnitude;
+        MovementModeController.velocityXZAboutToBeApplied = velocityXZ.magnitude;
+        Debug.Log(velocityXZ);
+        MovementModeController.velocityYAboutToBeApplied = velocityY.magnitude;
+
         //4188538
         //Debug.Log("added vel xz var " + velocityXZ);
         //Debug.Log("added vel y var " + velocityY);

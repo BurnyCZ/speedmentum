@@ -17,8 +17,8 @@ public class MouseLook : MonoBehaviour
     }
     void FixedUpdate()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity; //Mouse X = how far did the mouse move on the x axis since the last frame, the faster you turn with mouse, the bigger the number is
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity; //Mouse X = how far did the mouse move on the x axis since the last frame, the faster you turn with mouse, the bigger the number is
+        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
 
 
         xRotation = xRotation - mouseY;
