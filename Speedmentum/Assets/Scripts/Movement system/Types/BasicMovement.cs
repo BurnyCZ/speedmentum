@@ -134,7 +134,7 @@ public class BasicMovement : MonoBehaviour
         MovementModeController.velocityY = Math.Abs(controller.velocity.y); //same as new Vector3(0,controller.velocity.y,0).magnitude;
         MovementModeController.velocityAboutToBeApplied = (velocityXZ + velocityY).magnitude;
         MovementModeController.velocityXZAboutToBeApplied = velocityXZ.magnitude;
-        Debug.Log(velocityXZ);
+        //Debug.Log(velocityXZ);
         MovementModeController.velocityYAboutToBeApplied = velocityY.magnitude;
 
         //4188538

@@ -5,11 +5,27 @@ using UnityEngine;
 public enum Modes //this is global variable, each mod has its own enum value
 {
     Basic, //0
-    LowGravity, //1
-    HighGravity, //2
-    IncreasingSpeed, //3
-    DecreasingSpeed, //4
-    MouseShake //5
+    LowGravity, //can delet, is here cuz jeste jsem needitoval code aby to tu nemuselo byt, pls fix
+    HighGravity,
+    IncreasingSpeed,
+    DecreasingSpeed,
+    MouseShake,
+
+
+}
+
+public enum MovementMenus //this is global variable
+{
+    ModesModifiers,
+    AddRemove,
+    GrowthVariants,
+    OrTriggers,
+    AndTriggers
+}
+
+public enum ChangeableValues
+{
+    Player
 }
 
 public class MovementModeController : MonoBehaviour
@@ -20,6 +36,8 @@ public class MovementModeController : MonoBehaviour
     public static float velocityAboutToBeApplied; //static = global promena
     public static float velocityXZAboutToBeApplied;
     public static float velocityYAboutToBeApplied;
+
+    public static MovementMenus currentMovementMenu;
 
     public ButtonClickHandler[] buttonClickHandlers = new ButtonClickHandler[18]; //includes all buttons from the movementmenu inside so its possible to interact with them in this code (the button objects are set in unity editor)
 
