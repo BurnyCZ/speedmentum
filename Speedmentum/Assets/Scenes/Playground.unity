@@ -9240,6 +9240,7 @@ GameObject:
   - component: {fileID: 523882275}
   - component: {fileID: 523882277}
   - component: {fileID: 523882276}
+  - component: {fileID: 523882278}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -9295,6 +9296,18 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &523882278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523882274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29fcef6a068a4d45a2fa11f709bec51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &539747459
 GameObject:
   m_ObjectHideFlags: 0
@@ -10415,7 +10428,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player Max Speed [1]
+  m_text: Player Speed [1]
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -10485,10 +10498,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 586159270}
-    characterCount: 20
+    characterCount: 16
     spriteCount: 0
-    spaceCount: 3
-    wordCount: 4
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -11270,7 +11283,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &597756031
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15055,7 +15068,7 @@ GameObject:
   - component: {fileID: 823195858}
   - component: {fileID: 823195860}
   m_Layer: 5
-  m_Name: PlayerMaxSpeedButton
+  m_Name: PlayerSpeedButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15185,8 +15198,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -320.3, y: 271.9}
-  m_SizeDelta: {x: 396.6, y: 33.348}
+  m_AnchoredPosition: {x: -365.1, y: 268.74}
+  m_SizeDelta: {x: 324.9, y: 38.402}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &836196040
 GameObject:
@@ -16890,7 +16903,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh61290
+  m_Name: pb_Mesh16542
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -18724,7 +18737,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Phys updates/sec [8]
+  m_text: PLAYER MAX SPEED [8]
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -18796,7 +18809,7 @@ MonoBehaviour:
     textComponent: {fileID: 973765863}
     characterCount: 20
     spriteCount: 0
-    spaceCount: 2
+    spaceCount: 3
     wordCount: 4
     linkCount: 0
     lineCount: 1
@@ -22604,6 +22617,7 @@ GameObject:
   - component: {fileID: 1101126261}
   - component: {fileID: 1101126260}
   - component: {fileID: 1101126259}
+  - component: {fileID: 1101126262}
   m_Layer: 0
   m_Name: First Person Player
   m_TagString: Untagged
@@ -22656,7 +22670,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101126257}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00058afa2c4206847973b21c7e46f306, type: 3}
   m_Name: 
@@ -22699,6 +22713,38 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1101126262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101126257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 107f93846a8ad0e4fb1cdffac77be69d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonClickHandlers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  basicMovement: {fileID: 1101126259}
 --- !u!1 &1111590903
 GameObject:
   m_ObjectHideFlags: 0
@@ -23607,7 +23653,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1149636581
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31615,7 +31661,7 @@ GameObject:
   - component: {fileID: 1505142865}
   - component: {fileID: 1505142864}
   m_Layer: 5
-  m_Name: Phys updates/sec [8]
+  m_Name: PlayerMaxSpeedButton [8]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36109,8 +36155,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce77e8c104b33f429d603c4156bc49c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementMenuPos: {fileID: 1149636581}
-  isEnabled: 0
+  menus:
+  - {fileID: 1149636581}
+  - {fileID: 914607429}
+  - {fileID: 1561730941}
+  - {fileID: 1322698319}
+  - {fileID: 1824285564}
+  - {fileID: 1098122548}
+  - {fileID: 1936887651}
 --- !u!114 &1669178770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36836,7 +36888,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60476
+  m_Name: pb_Mesh15284
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -86494,7 +86546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1824285564
 RectTransform:
   m_ObjectHideFlags: 0

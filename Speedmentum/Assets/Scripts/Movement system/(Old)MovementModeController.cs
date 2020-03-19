@@ -2,12 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum Modes //this is global variable, each mod has its own enum value
-{
-    Basic, //0
-    Car
-}
-public class MovementModeController : MonoBehaviour
+
+//Globals
+//public enum Modes //this is global variable, each mod has its own enum value
+//{
+//    Basic, //0
+//    LowGravity, //can delet, is here cuz jeste jsem needitoval code aby to tu nemuselo byt, pls fix
+//    HighGravity,
+//    IncreasingSpeed,
+//    DecreasingSpeed,
+//    MouseShake,
+
+
+//}
+
+//public enum MovementMenus //this is global variable
+//{
+//    ModesModifiers,
+//    AddRemove,
+//    GrowthVariants,
+//    OrTriggers,
+//    AndTriggers
+//}
+
+//public enum ChangeableValues
+//{
+//    Player
+//}
+public class OldMovementModeController : MonoBehaviour
 { 
     public static float velocity; //static = global promena
     public static float velocityXZ;
@@ -16,9 +38,12 @@ public class MovementModeController : MonoBehaviour
     public static float velocityXZAboutToBeApplied;
     public static float velocityYAboutToBeApplied;
 
+    //was used in the old script
+    //public static MovementMenus currentMovementMenu;
+
     public ButtonClickHandler[] buttonClickHandlers = new ButtonClickHandler[18]; //includes all buttons from the movementmenu inside so its possible to interact with them in this code (the button objects are set in unity editor)
 
-    public static List<Modes> enabledModes = new List<Modes>();
+    public static List<Modes> enabledModes = new List<Modes>(); //has all modes that are enabled currently, has nothing in it by default, when 1-9 or f1-f9 is pressed, it gets a new mode in it, and according to whats inside, the game is releasing certain physics updates every tick
 
     public BasicMovement basicMovement; //each mode has its own object so that its possible to interact with them    
 

@@ -3,8 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 public class BasicMovement : MonoBehaviour
 {
+    enum Modifiers
+    {
+        PlayerSpeed,
+        Gravity,
+        PhysUpdates,
+        JumpSpeed,
+        JumpHeight,
+        PlayerMaxSpeed,
+        Timescale
+    }
+    enum GrowthVariants
+    {
+        Constant,
+        Linear,
+        Exponencial,
+        Oscillation
+    }
+
+    enum Triggers
+    {
+        Time,
+        Jump,
+        MouseShaking,
+        Walking,
+        PlayerInAir,
+        PlayerOnGround
+    }
+
     public CharacterController controller;
     public Transform groundCheck;
     public LayerMask groundMask;
@@ -30,12 +61,21 @@ public class BasicMovement : MonoBehaviour
     public float decreasingValue = 1f;
     public float mouseShakeValue;
 
-    float mouseX;
     float mouseY;
+
+    List<List<Modifiers>> modifiers = new List<List<Modifiers>>();
+    List<List<GrowthVariants>> growthVariants = new List<List<GrowthVariants>>();
+    List<List<Triggers>> orTriggers = new List<List<Triggers>>();
+    List<List<Triggers>> andTriggers = new List<List<Triggers>>();
 
     void Start()
     {
         mouseShakeValue = 1f; //its here since for some reason without it if its initialized up there its by default set to 0 even tho i set it to 1 there?! wtf
+
+        modifiers.Add(new List<Modifiers> { Modifiers.PlayerMaxSpeed, Modifiers.Gravity });
+        growthVariants.Add(new List<GrowthVariants> { GrowthVariants.Linear });
+        orTriggers.Add(new List<Triggers> { Triggers.PlayerOnGround });
+        andTriggers.Add(new List<Triggers> { Triggers.MouseShaking, Triggers.PlayerInAir });
     }
     //void FixedUpdate()
     //{
@@ -44,15 +84,25 @@ public class BasicMovement : MonoBehaviour
 
     public void Movement()
     {
-        mouseX = Input.GetAxisRaw("Mouse X");
         mouseY = Input.GetAxisRaw("Mouse Y");
         //Debug.Log(mouseX);
         //Debug.Log(mouseY);
         //type float value, default 100
 
         gravity = -20f; //default gravity value, must be here because each update its set to that value first, and then depending on the combination of other gravity modifiers it adds or removes to that original value (might be better with multiple conditions? probs not) (might be better if the gravity was made as a slider instead)
-        if (MovementModeController.enabledModes.Contains(Modes.LowGravity)) gravity += 10f;
-        if (MovementModeController.enabledModes.Contains(Modes.HighGravity)) gravity += -10f;
+        //if (MovementModeController.enabledModes.Contains(Modes.LowGravity)) gravity += 10f;
+        //if (MovementModeController.enabledModes.Contains(Modes.HighGravity)) gravity += -10f;
+        for (int i = 0; i<modifiers.Count; i++)
+        {
+            if (modifiers[i].Contains(Modifiers.Gravity))
+            {
+                if (growthVariants[i].Contains(GrowthVariants.Constant))
+                {
+                    //read player input and set a value
+                    //gravity = 
+                }
+            }
+        }
 
 
         //Debug.Log(mode);
@@ -81,35 +131,35 @@ public class BasicMovement : MonoBehaviour
         //Debug.Log("velXY " + velocityXZ + " tr.right " + transform.right + " x " + x + " tr.for " + transform.forward + " z " + z );
         //-> velXY (-6.2, 0.0, 15.8) tr.right (0.9, 0.0, -0.4) x -1 tr.for (0.4, 0.0, 0.9) z 1
 
-        if (!MovementModeController.enabledModes.Contains(Modes.IncreasingSpeed) && !MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed)) //if no increasing or decreasing spee
-        {
-            decreasingValue = 1;
-            growingValue = 1;
-        }
-        else
-        {
-            if (MovementModeController.enabledModes.Contains(Modes.IncreasingSpeed))
-            {
-                growingValue = growingValue * 1.001f;
-                velocityXZ = velocityXZ * growingValue;
-                if (!MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed))
-                    decreasingValue = 1f;
-            }
-            if (MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed))
-            {
-                decreasingValue = decreasingValue / 1.001f;
-                velocityXZ = velocityXZ * decreasingValue;
-                if (!MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed))
-                    growingValue = 1f;
-            }
-        }
+        //if (!MovementModeController.enabledModes.Contains(Modes.IncreasingSpeed) && !MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed)) //if no increasing or decreasing spee
+        //{
+        //    decreasingValue = 1;
+        //    growingValue = 1;
+        //}
+        //else
+        //{
+        //    if (MovementModeController.enabledModes.Contains(Modes.IncreasingSpeed))
+        //    {
+        //        growingValue = growingValue * 1.001f;
+        //        velocityXZ = velocityXZ * growingValue;
+        //        if (!MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed))
+        //            decreasingValue = 1f;
+        //    }
+        //    if (MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed))
+        //    {
+        //        decreasingValue = decreasingValue / 1.001f;
+        //        velocityXZ = velocityXZ * decreasingValue;
+        //        if (!MovementModeController.enabledModes.Contains(Modes.DecreasingSpeed))
+        //            growingValue = 1f;
+        //    }
+        //}
 
-        if (MovementModeController.enabledModes.Contains(Modes.MouseShake))
-        {
-            //Debug.Log(mouseShakeValue);
-            mouseShakeValue = mouseShakeValue + (Math.Abs(mouseY))/20;
-            velocityXZ = velocityXZ * mouseShakeValue;
-        }
+        //if (MovementModeController.enabledModes.Contains(Modes.MouseShake))
+        //{
+        //    //Debug.Log(mouseShakeValue);
+        //    mouseShakeValue = mouseShakeValue + (Math.Abs(mouseY))/20;
+        //    velocityXZ = velocityXZ * mouseShakeValue;
+        //}
 
         /*first dumb idea  - gravity multiplier makes it grow more each time, but its would be better to square the velocity by gravity multiplier so it grows exponencialy
         velocity = velocity * gravityMultiplier;
@@ -144,4 +194,6 @@ public class BasicMovement : MonoBehaviour
 
 
     }
+
+
 }
