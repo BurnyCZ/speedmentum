@@ -36,22 +36,7 @@ public class VelocityMeter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            if (!((int)velocityMode == Enum.GetNames(typeof(VelocityModes)).Length - 1))
-                velocityMode = (VelocityModes)((int)velocityMode + 1);
-            else
-                velocityMode = VelocityModes.Default; // 0
-
-            Debug.Log("Velocity mode changed to "+velocityMode);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            isRounded = !isRounded;
-
-            Debug.Log("Velocity mode changed to " + velocityMode);
-        }
+       
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -103,5 +88,21 @@ public class VelocityMeter : MonoBehaviour
             default: //VelocityModes.Default:
                 return velocity * 10;
         }
+    }
+
+    public void ChangeVelToFloatKeyPress()
+    {
+        isRounded = !isRounded;
+        Debug.Log("Velocity mode changed to " + velocityMode);
+    }
+
+    public void ChangeVelModeKeyPress()
+    {
+        if (!((int)velocityMode == Enum.GetNames(typeof(VelocityModes)).Length - 1))
+            velocityMode = (VelocityModes)((int)velocityMode + 1);
+        else
+            velocityMode = VelocityModes.Default; // 0
+
+        Debug.Log("Velocity mode changed to " + velocityMode);
     }
 }

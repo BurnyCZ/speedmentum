@@ -21,6 +21,8 @@ public class MovementMenu : MonoBehaviour
     Menus currentMenu = Menus.modesMenu;
     bool isCurrentMenuEnabled = false;
 
+
+
     void Start()
     {
         for (int i = 0; i<menus.Count; i++)
@@ -32,24 +34,21 @@ public class MovementMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            if (!isCurrentMenuEnabled) menus[(int)currentMenu].position = menus[(int)currentMenu].position - new Vector3(0, 1000, 0);  //makes the current menu screen visible/invisible
-            else menus[(int)currentMenu].position = menus[(int)currentMenu].position + new Vector3(0, 1000, 0);
-            //Debug.Log(movementMenuPos.position.y);
-        }
+        //ShowMovementMenu();
 
-        if (currentMenu == Menus.modesMenu)
-        {
-            Input.GetKeyDown(KeyCode.M);
-        }
-
-
-
-        //if (Input.GetKeyDown(KeyCode.U))
+        //if (currentMenu == Menus.modesMenu)
         //{
-        //    currentMenu = (Menus)((int)currentMenu + 1); //sets current menu variable to the next one
+        //    Input.GetKeyDown(KeyCode.M);
         //}
     }
+
+    public void ShowMovementMenuKeyPress() //happens when showmovement key is pressed
+    {
+        isCurrentMenuEnabled = !isCurrentMenuEnabled;
+        if (isCurrentMenuEnabled) menus[(int)currentMenu].position = menus[(int)currentMenu].position - new Vector3(0, 1000, 0);  //makes the current menu screen visible/invisible
+        else menus[(int)currentMenu].position = menus[(int)currentMenu].position + new Vector3(0, 1000, 0);
+        Debug.Log("test");
+    }
+
 }
 

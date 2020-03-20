@@ -14847,6 +14847,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 3.5
   playerBody: {fileID: 1101126258}
+  mouseX: 0
+  mouseY: 0
 --- !u!81 &804142910
 AudioListener:
   m_ObjectHideFlags: 0
@@ -16872,6 +16874,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 905530716}
+  - component: {fileID: 905530717}
   m_Layer: 0
   m_Name: GameSystem
   m_TagString: Untagged
@@ -16897,13 +16900,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &905530717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905530715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e34a26439a39e48a0179da856a5ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementMenu: {fileID: 1669178769}
+  velocityMeter: {fileID: 975603462}
+  basicMovement: {fileID: 1101126259}
+  mouseLook: {fileID: 804142909}
 --- !u!43 &907279908
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh16542
+  m_Name: pb_Mesh17194
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -22615,7 +22634,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1101126258}
   - component: {fileID: 1101126261}
-  - component: {fileID: 1101126260}
   - component: {fileID: 1101126259}
   - component: {fileID: 1101126262}
   m_Layer: 0
@@ -22649,7 +22667,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101126257}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 218bd143f6e26c94eb4b49febdf47729, type: 3}
   m_Name: 
@@ -22660,41 +22678,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   velocity: {x: 0, y: 0, z: 0}
-  growingValue: 1
-  decreasingValue: 1
-  mouseShakeValue: 0
---- !u!114 &1101126260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101126257}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00058afa2c4206847973b21c7e46f306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonClickHandlers:
-  - {fileID: 1142621131}
-  - {fileID: 454305724}
-  - {fileID: 1845850644}
-  - {fileID: 1296347901}
-  - {fileID: 769458982}
-  - {fileID: 1223705830}
-  - {fileID: 1908365220}
-  - {fileID: 2109342878}
-  - {fileID: 1431883742}
-  - {fileID: 7934386}
-  - {fileID: 1084972149}
-  - {fileID: 1751679770}
-  - {fileID: 1895063454}
-  - {fileID: 1040189544}
-  - {fileID: 43639585}
-  - {fileID: 955367304}
-  - {fileID: 548499126}
-  - {fileID: 797013620}
-  basicMovement: {fileID: 1101126259}
+  movementInput: {x: 0, y: 0}
 --- !u!143 &1101126261
 CharacterController:
   m_ObjectHideFlags: 0
@@ -22726,7 +22710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonClickHandlers:
-  - {fileID: 0}
+  - {fileID: 1142621131}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -23653,7 +23637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1149636581
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36888,7 +36872,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh15284
+  m_Name: pb_Mesh15936
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -85617,7 +85601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.2999878, y: -0.3999939}
+  m_AnchoredPosition: {x: 0.2998047, y: -0.39990234}
   m_SizeDelta: {x: 10.82428, y: 9.399994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1792120975
@@ -86546,7 +86530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1824285564
 RectTransform:
   m_ObjectHideFlags: 0

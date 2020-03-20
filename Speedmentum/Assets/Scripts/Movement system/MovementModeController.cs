@@ -70,16 +70,16 @@ public class MovementModeController : MonoBehaviour
             ModeKeyPress(Modes.Basic);
             buttonClickHandlers[0].KeyPress(KeyCode.Alpha1); //button pressed color animation on or off
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ModeKeyPress(Modes.LowGravity);
-            buttonClickHandlers[1].KeyPress(KeyCode.Alpha2);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            ModeKeyPress(Modes.HighGravity);
-            buttonClickHandlers[2].KeyPress(KeyCode.Alpha3);
-        }
+        //else if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    ModeKeyPress(Modes.LowGravity);
+        //    buttonClickHandlers[1].KeyPress(KeyCode.Alpha2);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    ModeKeyPress(Modes.HighGravity);
+        //    buttonClickHandlers[2].KeyPress(KeyCode.Alpha3);
+        //}
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             //ModeKeyPress(Modes.Basic);
@@ -110,21 +110,21 @@ public class MovementModeController : MonoBehaviour
             //ModeKeyPress(Modes.Basic);
             buttonClickHandlers[8].KeyPress(KeyCode.Alpha9);
         }
-        else if (Input.GetKeyDown(KeyCode.F1))
-        {
-            ModeKeyPress(Modes.IncreasingSpeed);
-            buttonClickHandlers[9].KeyPress(KeyCode.F1);
-        }
-        else if (Input.GetKeyDown(KeyCode.F2))
-        {
-            ModeKeyPress(Modes.DecreasingSpeed);
-            buttonClickHandlers[10].KeyPress(KeyCode.F2);
-        }
-        else if (Input.GetKeyDown(KeyCode.F3))
-        {
-            ModeKeyPress(Modes.MouseShake);
-            buttonClickHandlers[11].KeyPress(KeyCode.F3);
-        }
+        //else if (Input.GetKeyDown(KeyCode.F1))
+        //{
+        //    ModeKeyPress(Modes.IncreasingSpeed);
+        //    buttonClickHandlers[9].KeyPress(KeyCode.F1);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.F2))
+        //{
+        //    ModeKeyPress(Modes.DecreasingSpeed);
+        //    buttonClickHandlers[10].KeyPress(KeyCode.F2);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.F3))
+        //{
+        //    ModeKeyPress(Modes.MouseShake);
+        //    buttonClickHandlers[11].KeyPress(KeyCode.F3);
+        //}
         else if (Input.GetKeyDown(KeyCode.F4))
         {
             //ModeKeyPress(Modes.Basic);

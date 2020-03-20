@@ -10,6 +10,9 @@ public class MouseLook : MonoBehaviour
 
     public Transform playerBody; //for rotating the model, which is locked to camera too
 
+    public float mouseX;
+    public float mouseY;
+
     float xRotation = 0f; //for rotating vertically
     void Start()
     {
@@ -17,8 +20,10 @@ public class MouseLook : MonoBehaviour
     }
     void FixedUpdate()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity; //Mouse X = how far did the mouse move on the x axis since the last frame, the faster you turn with mouse, the bigger the number is
-        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+
+        mouseX = Input.GetAxisRaw("Mouse X");//* mouseSensitivity; //Mouse X = how far did the mouse move on the x axis since the last frame, the faster you turn with mouse, the bigger the number is
+        mouseY = Input.GetAxisRaw("Mouse Y");//* mouseSensitivity;
+        //not in the new input system because of those flaws - cant find GetRawAxis equivalent and idk how to find x and y invidually, just finds how to do xy combined 
 
 
         xRotation = xRotation - mouseY;
