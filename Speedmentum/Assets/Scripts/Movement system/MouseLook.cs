@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float mouseSensitivity;
+    public float mouseSensitivity; //3.5 works with the old input system, 0.25 for the new one
 
     //public Transform camera;
 
@@ -21,10 +21,12 @@ public class MouseLook : MonoBehaviour
     void FixedUpdate()
     {
 
-        mouseX = Input.GetAxisRaw("Mouse X");//* mouseSensitivity; //Mouse X = how far did the mouse move on the x axis since the last frame, the faster you turn with mouse, the bigger the number is
-        mouseY = Input.GetAxisRaw("Mouse Y");//* mouseSensitivity;
-        //not in the new input system because of those flaws - cant find GetRawAxis equivalent and idk how to find x and y invidually, just finds how to do xy combined 
+        mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity; //Mouse X = how far did the mouse move on the x axis since the last frame, the faster you turn with mouse, the bigger the number is
+        mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        //not in the new input system because that is much less smooth and accurate it feels like
 
+        //mouseX = mouseX * mouseSensitivity; //Mouse X = how far did the mouse move on the x axis since the last frame, the faster you turn with mouse, the bigger the number is
+        //mouseY = mouseY * mouseSensitivity;
 
         xRotation = xRotation - mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f); //makes it so that player cannot turn more than 180 degrees
@@ -41,12 +43,13 @@ public class MouseLook : MonoBehaviour
         //playerBody.Rotate(new Vector3(0, mouseX, mouseX));
         //playerBody.Rotate(new Vector3(0, 0, mouseX));
         //playerBody.Rotate(new Vector3(mouseX, 0, mouseX));
+        mouseX = 0;
+        mouseY = 0;
 
-        if (Input.GetKeyDown(KeyCode.L)) //look straight button, using it to find out how many units per second i move each tick
-        {
-            //playerBody.Rotate(new Vector3(0f, 0f, 0f));
-            playerBody.rotation = Quaternion.Euler(0f, 0f, 0f);
-            Debug.Log("L");
-        }
+    }
+
+    public void LookStraight() //look straight button, using it to find out how many units per second i move each tick
+    {
+        playerBody.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 }

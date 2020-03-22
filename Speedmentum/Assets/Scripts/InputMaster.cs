@@ -28,7 +28,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Jump"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""9cb6ca6f-df4d-4488-b985-cbe93e85bc94"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -43,9 +43,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Mouse"",
+                    ""name"": ""MouseX"",
                     ""type"": ""Button"",
                     ""id"": ""3a23db74-d2b9-4a37-9bee-55c817183f0e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MouseY"",
+                    ""type"": ""Button"",
+                    ""id"": ""fbeafd77-6312-4de7-8e03-43184378de0f"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -87,7 +95,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": ""WASD"",
                     ""id"": ""982f7388-3fde-489e-b40b-5c60ed3d40bd"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -168,18 +176,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and mouse"",
-                    ""action"": ""Mouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""106948cb-092f-4934-8d6d-4da5cfca9fad"",
-                    ""path"": ""<Mouse>/delta/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and mouse"",
-                    ""action"": ""Mouse"",
+                    ""action"": ""MouseX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -224,6 +221,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and mouse"",
                     ""action"": ""WasLeftPressed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a580749-0df2-46d3-b55e-cb32635fa79b"",
+                    ""path"": ""<Mouse>/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""MouseY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -277,6 +285,22 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""name"": ""StopKey"",
                     ""type"": ""Button"",
                     ""id"": ""78aebfed-ac13-45ba-b5de-fe889680f7c8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""TabKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""e591c39a-3874-426d-a8b6-4f853c2ea317"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DotKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""66974fb5-d13e-463b-bb5e-6b81e10ea291"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -690,6 +714,28 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""ChangeKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42cf1fe1-4ed7-46bb-8b54-0942b90a55db"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""TabKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d800b0da-d6d1-4552-9691-34a3230b8297"",
+                    ""path"": ""<Keyboard>/period"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""DotKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -718,7 +764,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PlayerControls_Move = m_PlayerControls.FindAction("Move", throwIfNotFound: true);
         m_PlayerControls_Jump = m_PlayerControls.FindAction("Jump", throwIfNotFound: true);
         m_PlayerControls_LookStraight = m_PlayerControls.FindAction("LookStraight", throwIfNotFound: true);
-        m_PlayerControls_Mouse = m_PlayerControls.FindAction("Mouse", throwIfNotFound: true);
+        m_PlayerControls_MouseX = m_PlayerControls.FindAction("MouseX", throwIfNotFound: true);
+        m_PlayerControls_MouseY = m_PlayerControls.FindAction("MouseY", throwIfNotFound: true);
         m_PlayerControls_WasForwardsPressed = m_PlayerControls.FindAction("WasForwardsPressed", throwIfNotFound: true);
         m_PlayerControls_WasBackwardsPressed = m_PlayerControls.FindAction("WasBackwardsPressed", throwIfNotFound: true);
         m_PlayerControls_WasRightPressed = m_PlayerControls.FindAction("WasRightPressed", throwIfNotFound: true);
@@ -731,6 +778,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_GuiControls_ShowMovementMenu = m_GuiControls.FindAction("ShowMovementMenu", throwIfNotFound: true);
         m_GuiControls_ChangeKey = m_GuiControls.FindAction("ChangeKey", throwIfNotFound: true);
         m_GuiControls_StopKey = m_GuiControls.FindAction("StopKey", throwIfNotFound: true);
+        m_GuiControls_TabKey = m_GuiControls.FindAction("TabKey", throwIfNotFound: true);
+        m_GuiControls_DotKey = m_GuiControls.FindAction("DotKey", throwIfNotFound: true);
         m_GuiControls_MenuKey1 = m_GuiControls.FindAction("MenuKey1", throwIfNotFound: true);
         m_GuiControls_MenuKey2 = m_GuiControls.FindAction("MenuKey2", throwIfNotFound: true);
         m_GuiControls_MenuKey3 = m_GuiControls.FindAction("MenuKey3", throwIfNotFound: true);
@@ -801,7 +850,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControls_Move;
     private readonly InputAction m_PlayerControls_Jump;
     private readonly InputAction m_PlayerControls_LookStraight;
-    private readonly InputAction m_PlayerControls_Mouse;
+    private readonly InputAction m_PlayerControls_MouseX;
+    private readonly InputAction m_PlayerControls_MouseY;
     private readonly InputAction m_PlayerControls_WasForwardsPressed;
     private readonly InputAction m_PlayerControls_WasBackwardsPressed;
     private readonly InputAction m_PlayerControls_WasRightPressed;
@@ -813,7 +863,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerControls_Move;
         public InputAction @Jump => m_Wrapper.m_PlayerControls_Jump;
         public InputAction @LookStraight => m_Wrapper.m_PlayerControls_LookStraight;
-        public InputAction @Mouse => m_Wrapper.m_PlayerControls_Mouse;
+        public InputAction @MouseX => m_Wrapper.m_PlayerControls_MouseX;
+        public InputAction @MouseY => m_Wrapper.m_PlayerControls_MouseY;
         public InputAction @WasForwardsPressed => m_Wrapper.m_PlayerControls_WasForwardsPressed;
         public InputAction @WasBackwardsPressed => m_Wrapper.m_PlayerControls_WasBackwardsPressed;
         public InputAction @WasRightPressed => m_Wrapper.m_PlayerControls_WasRightPressed;
@@ -836,9 +887,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @LookStraight.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLookStraight;
                 @LookStraight.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLookStraight;
                 @LookStraight.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnLookStraight;
-                @Mouse.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouse;
-                @Mouse.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouse;
-                @Mouse.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouse;
+                @MouseX.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouseX;
+                @MouseX.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouseX;
+                @MouseX.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouseX;
+                @MouseY.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouseY;
+                @MouseY.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouseY;
+                @MouseY.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMouseY;
                 @WasForwardsPressed.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnWasForwardsPressed;
                 @WasForwardsPressed.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnWasForwardsPressed;
                 @WasForwardsPressed.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnWasForwardsPressed;
@@ -864,9 +918,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @LookStraight.started += instance.OnLookStraight;
                 @LookStraight.performed += instance.OnLookStraight;
                 @LookStraight.canceled += instance.OnLookStraight;
-                @Mouse.started += instance.OnMouse;
-                @Mouse.performed += instance.OnMouse;
-                @Mouse.canceled += instance.OnMouse;
+                @MouseX.started += instance.OnMouseX;
+                @MouseX.performed += instance.OnMouseX;
+                @MouseX.canceled += instance.OnMouseX;
+                @MouseY.started += instance.OnMouseY;
+                @MouseY.performed += instance.OnMouseY;
+                @MouseY.canceled += instance.OnMouseY;
                 @WasForwardsPressed.started += instance.OnWasForwardsPressed;
                 @WasForwardsPressed.performed += instance.OnWasForwardsPressed;
                 @WasForwardsPressed.canceled += instance.OnWasForwardsPressed;
@@ -893,6 +950,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_GuiControls_ShowMovementMenu;
     private readonly InputAction m_GuiControls_ChangeKey;
     private readonly InputAction m_GuiControls_StopKey;
+    private readonly InputAction m_GuiControls_TabKey;
+    private readonly InputAction m_GuiControls_DotKey;
     private readonly InputAction m_GuiControls_MenuKey1;
     private readonly InputAction m_GuiControls_MenuKey2;
     private readonly InputAction m_GuiControls_MenuKey3;
@@ -921,6 +980,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @ShowMovementMenu => m_Wrapper.m_GuiControls_ShowMovementMenu;
         public InputAction @ChangeKey => m_Wrapper.m_GuiControls_ChangeKey;
         public InputAction @StopKey => m_Wrapper.m_GuiControls_StopKey;
+        public InputAction @TabKey => m_Wrapper.m_GuiControls_TabKey;
+        public InputAction @DotKey => m_Wrapper.m_GuiControls_DotKey;
         public InputAction @MenuKey1 => m_Wrapper.m_GuiControls_MenuKey1;
         public InputAction @MenuKey2 => m_Wrapper.m_GuiControls_MenuKey2;
         public InputAction @MenuKey3 => m_Wrapper.m_GuiControls_MenuKey3;
@@ -966,6 +1027,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @StopKey.started -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnStopKey;
                 @StopKey.performed -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnStopKey;
                 @StopKey.canceled -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnStopKey;
+                @TabKey.started -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnTabKey;
+                @TabKey.performed -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnTabKey;
+                @TabKey.canceled -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnTabKey;
+                @DotKey.started -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnDotKey;
+                @DotKey.performed -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnDotKey;
+                @DotKey.canceled -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnDotKey;
                 @MenuKey1.started -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKey1;
                 @MenuKey1.performed -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKey1;
                 @MenuKey1.canceled -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKey1;
@@ -1042,6 +1109,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @StopKey.started += instance.OnStopKey;
                 @StopKey.performed += instance.OnStopKey;
                 @StopKey.canceled += instance.OnStopKey;
+                @TabKey.started += instance.OnTabKey;
+                @TabKey.performed += instance.OnTabKey;
+                @TabKey.canceled += instance.OnTabKey;
+                @DotKey.started += instance.OnDotKey;
+                @DotKey.performed += instance.OnDotKey;
+                @DotKey.canceled += instance.OnDotKey;
                 @MenuKey1.started += instance.OnMenuKey1;
                 @MenuKey1.performed += instance.OnMenuKey1;
                 @MenuKey1.canceled += instance.OnMenuKey1;
@@ -1114,7 +1187,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnLookStraight(InputAction.CallbackContext context);
-        void OnMouse(InputAction.CallbackContext context);
+        void OnMouseX(InputAction.CallbackContext context);
+        void OnMouseY(InputAction.CallbackContext context);
         void OnWasForwardsPressed(InputAction.CallbackContext context);
         void OnWasBackwardsPressed(InputAction.CallbackContext context);
         void OnWasRightPressed(InputAction.CallbackContext context);
@@ -1128,6 +1202,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnShowMovementMenu(InputAction.CallbackContext context);
         void OnChangeKey(InputAction.CallbackContext context);
         void OnStopKey(InputAction.CallbackContext context);
+        void OnTabKey(InputAction.CallbackContext context);
+        void OnDotKey(InputAction.CallbackContext context);
         void OnMenuKey1(InputAction.CallbackContext context);
         void OnMenuKey2(InputAction.CallbackContext context);
         void OnMenuKey3(InputAction.CallbackContext context);

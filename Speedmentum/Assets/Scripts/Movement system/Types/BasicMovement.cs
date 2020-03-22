@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class BasicMovement : MonoBehaviour
 {
-    enum Modifiers
+    public enum Modifiers
     {
         PlayerSpeed,
         Gravity,
@@ -18,19 +18,19 @@ public class BasicMovement : MonoBehaviour
         PlayerMaxSpeed,
         Timescale
     }
-    enum GrowthVariants
+    public enum GrowthVariants
     {
-        Constant,
-        LinearIncreasing,
-        LinearDecreasing,
-        MultiplicativeIncreasing,
-        MultiplicativeDecreasing,
-        ExponencialIncreasing,
-        ExponencialDecreasing,
-        Oscillation
+        Constant, //y=LastFrame
+        LinearlyIcreasing, //y=LastFrame+x
+        LinearlyDecreasing, //y=LastFrame-x
+        ExponentiallyIncreasing, //y=LastFrame*x
+        ExponentiallyDecreasing, //y=LastFrame/x
+        Oscillation,
+        SuperExponencialyIncreasing, //y=lastframe^x
+        SuperExponencialyDecreasing //y=sqr(lastframe)
     }
 
-    enum Triggers
+    public enum Triggers
     {
         Time,
         Jump,
@@ -69,20 +69,24 @@ public class BasicMovement : MonoBehaviour
 
 
     public Vector2 movementInput;
-    
-       
-    List<List<Modifiers>> modifiers = new List<List<Modifiers>>();
-    List<List<GrowthVariants>> growthVariants = new List<List<GrowthVariants>>();
-    List<List<Triggers>> orTriggers = new List<List<Triggers>>();
-    List<List<Triggers>> andTriggers = new List<List<Triggers>>();
+
+    public bool isItJump = false;
+
+    //Dictionary<List, Tuple<List<Modifiers>, List<GrowthVariants>, List<List<float>>, List<Triggers>, List<Triggers>, int>> //triggers are: or, and //tuple can be object of its own, list in dictionary is weird
+
+    public List<List<Modifiers>> modifiers = new List<List<Modifiers>>();
+    public List<List<GrowthVariants>> growthVariants = new List<List<GrowthVariants>>();
+    public List<List<List<float>>> growthVariantsValues = new List<List<List<float>>>();
+    public List<List<Triggers>> orTriggers = new List<List<Triggers>>();
+    public List<List<Triggers>> andTriggers = new List<List<Triggers>>();
     //List<List<int>> andTriggersConditions = new List<List<int>>();
-    List<int> andTriggersConditions = new List<int>(); //adds one 0 when a new modifier pack is added, before this code goes though it gets set to 0, and if one condition in andTriggers is true, it gets +1, when the number is as big as the andTriggers list, its completed and the game executes the code
+    public List<int> andTriggersConditions = new List<int>(); //adds one 0 when a new modifier pack is added, before this code goes though it gets set to 0, and if one condition in andTriggers is true, it gets +1, when the number is as big as the andTriggers list, its completed and the game executes the code
 
     void Start()
     {
 
         modifiers.Add(new List<Modifiers> { Modifiers.PlayerMaxSpeed, Modifiers.Gravity });
-        growthVariants.Add(new List<GrowthVariants> { GrowthVariants.MultiplicativeIncreasing });
+        growthVariants.Add(new List<GrowthVariants> { GrowthVariants.ExponentiallyIncreasing });
 
         //orTriggers.Add(new List<Triggers> { Triggers.PlayerOnGround });
         //andTriggers.Add(new List<Triggers> { Triggers.MouseShaking, Triggers.PlayerInAir });
@@ -161,18 +165,23 @@ public class BasicMovement : MonoBehaviour
 
         //G R A V I T Y nejpozději, muze byt kdykoliv pred tim
 
-
-        if (Input.GetButton("Jump") && isGrounded) //jumping
+        if (isItJump)
+        {
+            //if (Input.GetButton("Jump") && isGrounded) //jumping
+            if (isGrounded)
             {
-                
-
-
                 velocityY.y = Mathf.Sqrt(jumpHeight * -2f * gravity); //why? physics https://imgur.com/a/BQMlYuj
                 //velocityXZ = velocityXZ + something //jump speed, not impelmented
 
                 ScanTriggers(Triggers.Jump);
-
             }
+        }
+
+
+
+
+
+        
 
         if (!isGrounded) velocityY.y = velocityY.y + gravity * Time.deltaTime;
 
@@ -195,8 +204,19 @@ public class BasicMovement : MonoBehaviour
         //Debug.Log("added vel y var " + velocityY);
         //Debug.Log("reading controller velocity " + controller.velocity);
 
-
     }
+
+    public void Jump()
+    {
+        //if (isGrounded)
+        //{
+        //    velocityY.y = Mathf.Sqrt(jumpHeight * -2f * gravity); //why? physics https://imgur.com/a/BQMlYuj
+        //        //velocityXZ = velocityXZ + something //jump speed, not impelmented
+
+        //        ScanTriggers(Triggers.Jump);
+        //}
+    }
+
     void ScanTriggers(Triggers trigger)
     {
         for (int i = 0; i < orTriggers.Count; i++)
@@ -258,37 +278,37 @@ public class BasicMovement : MonoBehaviour
         {
             gravity = gravity; //wrong, should be whichever gravity the user has input ( gravity = gravity + input );
         }
-        if (growthVariants[i].Contains(GrowthVariants.LinearIncreasing))
+        if (growthVariants[i].Contains(GrowthVariants.LinearlyIcreasing))
         {
             gravity = gravity - 0.01f; //munis instead of plus because gravity is by default negative so to make it stronger (increase it) it has to go more into negative
             //Debug.Log(gravity);
         }
-        if (growthVariants[i].Contains(GrowthVariants.LinearDecreasing))
+        if (growthVariants[i].Contains(GrowthVariants.LinearlyDecreasing))
         {
             gravity = gravity + 0.01f;
             //Debug.Log(gravity);
         }
-        if (growthVariants[i].Contains(GrowthVariants.MultiplicativeIncreasing))
+        if (growthVariants[i].Contains(GrowthVariants.ExponentiallyIncreasing))
         {
             gravity = gravity * 1.001f;
             //true exponencialy increasing should be gravity*gravity
             //Debug.Log(gravity);
         }
-        if (growthVariants[i].Contains(GrowthVariants.MultiplicativeDecreasing))
+        if (growthVariants[i].Contains(GrowthVariants.ExponentiallyDecreasing))
         {
             gravity = gravity * 0.999f;
             //Debug.Log(gravity);
         }
-        if (growthVariants[i].Contains(GrowthVariants.ExponencialIncreasing))
-        {
-            gravity = gravity * gravity;
-            //Debug.Log(gravity);
-        }
-        if (growthVariants[i].Contains(GrowthVariants.ExponencialDecreasing))
-        {
+        //if (growthVariants[i].Contains(GrowthVariants.ExponencialIncreasing))
+        //{
+        //    gravity = gravity * gravity;
+        //    //Debug.Log(gravity);
+        //}
+        //if (growthVariants[i].Contains(GrowthVariants.ExponencialDecreasing))
+        //{
             
-            //Debug.Log(gravity);
-        }
+        //    //Debug.Log(gravity);
+        //}
         if (growthVariants[i].Contains(GrowthVariants.Oscillation))
         {
 
@@ -317,42 +337,42 @@ public class BasicMovement : MonoBehaviour
             speed = speed * 1.001f;
             gravity = gravity; //wrong, should be whichever gravity the user has input ( gravity = gravity + input );
         }
-        if (growthVariants[i].Contains(GrowthVariants.LinearIncreasing)) 
+        if (growthVariants[i].Contains(GrowthVariants.LinearlyIcreasing)) 
         {
             speed = speed + 0.001f;
             velocityXZ = velocityXZ * speed;
             //Debug.Log(speed);
         }
-        if (growthVariants[i].Contains(GrowthVariants.LinearDecreasing))
+        if (growthVariants[i].Contains(GrowthVariants.LinearlyDecreasing))
         {
             speed = speed - 0.001f;
             velocityXZ = velocityXZ * speed;
             //Debug.Log(speed);
         }
-        if (growthVariants[i].Contains(GrowthVariants.MultiplicativeIncreasing))
+        if (growthVariants[i].Contains(GrowthVariants.ExponentiallyIncreasing))
         {
             speed = speed * 1.001f;
             velocityXZ = velocityXZ * speed;
            // Debug.Log(speed);
         }
-        if (growthVariants[i].Contains(GrowthVariants.MultiplicativeDecreasing))
+        if (growthVariants[i].Contains(GrowthVariants.ExponentiallyDecreasing))
         {
             speed = speed * 0.999f;
             velocityXZ = velocityXZ * speed;
             //Debug.Log(speed);
         }
-        if (growthVariants[i].Contains(GrowthVariants.ExponencialIncreasing))
-        {
-            speed = speed * velocityXZ.magnitude;
-            velocityXZ = velocityXZ * speed;
-            //Debug.Log(speed);
-        }
-        if (growthVariants[i].Contains(GrowthVariants.ExponencialDecreasing))
-        {
-            //velocityMultiplier = velocityMultiplier * velocityXZ.magnitude;
-            //velocityXZ = velocityXZ * velocityMultiplier;
-            //Debug.Log(velocityMultiplier);
-        }
+        //if (growthVariants[i].Contains(GrowthVariants.ExponencialIncreasing))
+        //{
+        //    speed = speed * velocityXZ.magnitude;
+        //    velocityXZ = velocityXZ * speed;
+        //    //Debug.Log(speed);
+        //}
+        //if (growthVariants[i].Contains(GrowthVariants.ExponencialDecreasing))
+        //{
+        //    //velocityMultiplier = velocityMultiplier * velocityXZ.magnitude;
+        //    //velocityXZ = velocityXZ * velocityMultiplier;
+        //    //Debug.Log(velocityMultiplier);
+        //}
         if (growthVariants[i].Contains(GrowthVariants.Oscillation))
         {
 

@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "Jump",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "9cb6ca6f-df4d-4488-b985-cbe93e85bc94",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -30,9 +30,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Mouse",
+                    "name": "MouseX",
                     "type": "Button",
                     "id": "3a23db74-d2b9-4a37-9bee-55c817183f0e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MouseY",
+                    "type": "Button",
+                    "id": "fbeafd77-6312-4de7-8e03-43184378de0f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -74,7 +82,7 @@
                 {
                     "name": "WASD",
                     "id": "982f7388-3fde-489e-b40b-5c60ed3d40bd",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -155,18 +163,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and mouse",
-                    "action": "Mouse",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "106948cb-092f-4934-8d6d-4da5cfca9fad",
-                    "path": "<Mouse>/delta/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and mouse",
-                    "action": "Mouse",
+                    "action": "MouseX",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -211,6 +208,17 @@
                     "processors": "",
                     "groups": "Keyboard and mouse",
                     "action": "WasLeftPressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a580749-0df2-46d3-b55e-cb32635fa79b",
+                    "path": "<Mouse>/delta/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and mouse",
+                    "action": "MouseY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -264,6 +272,22 @@
                     "name": "StopKey",
                     "type": "Button",
                     "id": "78aebfed-ac13-45ba-b5de-fe889680f7c8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "TabKey",
+                    "type": "Button",
+                    "id": "e591c39a-3874-426d-a8b6-4f853c2ea317",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DotKey",
+                    "type": "Button",
+                    "id": "66974fb5-d13e-463b-bb5e-6b81e10ea291",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -675,6 +699,28 @@
                     "processors": "",
                     "groups": "Keyboard and mouse",
                     "action": "ChangeKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42cf1fe1-4ed7-46bb-8b54-0942b90a55db",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and mouse",
+                    "action": "TabKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d800b0da-d6d1-4552-9691-34a3230b8297",
+                    "path": "<Keyboard>/period",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and mouse",
+                    "action": "DotKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
