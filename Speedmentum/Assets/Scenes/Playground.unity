@@ -4405,7 +4405,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -250.52}
+  m_AnchoredPosition: {x: -358, y: -206.67}
   m_SizeDelta: {x: 266.84, y: 47.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &182442238
@@ -6985,7 +6985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 271011168}
-  buttonFunction: 
+  buttonFunction: ExponentiallyIncreasing
   movementMenu: {fileID: 1669178769}
 --- !u!114 &271011168
 MonoBehaviour:
@@ -8780,7 +8780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 346061525}
-  buttonFunction: 
+  buttonFunction: LinearlyIcreasing
   movementMenu: {fileID: 1669178769}
 --- !u!114 &346061525
 MonoBehaviour:
@@ -12092,7 +12092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 426588577}
-  buttonFunction: 
+  buttonFunction: LinearlyDecreasing
   movementMenu: {fileID: 1669178769}
 --- !u!114 &426588577
 MonoBehaviour:
@@ -13250,7 +13250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &468721690
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15864,7 +15864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 564662697}
-  buttonFunction: 
+  buttonFunction: Constant
   movementMenu: {fileID: 1669178769}
 --- !u!222 &564662700
 CanvasRenderer:
@@ -22246,7 +22246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 321.75, y: -206.67}
+  m_AnchoredPosition: {x: 223.9, y: -206.67}
   m_SizeDelta: {x: 444.6, y: 40.298}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &757569447
@@ -27891,7 +27891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 905501603}
-  buttonFunction: 
+  buttonFunction: ExponentiallyDecreasing
   movementMenu: {fileID: 1669178769}
 --- !u!114 &905501603
 MonoBehaviour:
@@ -28041,7 +28041,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17200
+  m_Name: pb_Mesh18424
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -28527,7 +28527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &914607429
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40546,7 +40546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1256981949}
-  buttonFunction: 
+  buttonFunction: Oscillation
   movementMenu: {fileID: 1669178769}
 --- !u!114 &1256981949
 MonoBehaviour:
@@ -42773,7 +42773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1322698319
 RectTransform:
   m_ObjectHideFlags: 0
@@ -47636,7 +47636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1494804517}
-  buttonFunction: 
+  buttonFunction: SuperExponencialyDecreasing
   movementMenu: {fileID: 1669178769}
 --- !u!114 &1494804517
 MonoBehaviour:
@@ -53816,7 +53816,7 @@ MonoBehaviour:
   - {fileID: 1936887651}
   modesMenuButtonClickHandlers:
   - {fileID: 7934386}
-  addReplaceMenuButtonClickHandlers:
+  modifiersMenuButtonClickHandlers:
   - {fileID: 823195860}
   - {fileID: 1913135001}
   - {fileID: 1512411672}
@@ -53826,8 +53826,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 1505142864}
   - {fileID: 1776821406}
-  modifiersMenuButtonClickHandlers: []
-  growthVariantsMenuButtonClickHandlers: []
+  growthVariantsMenuButtonClickHandlers:
+  - {fileID: 564662699}
+  - {fileID: 346061524}
+  - {fileID: 271011167}
+  - {fileID: 2139747274}
+  - {fileID: 198657825}
+  declineVariantsMenuButtonClickHandlers:
+  - {fileID: 2046695810}
+  - {fileID: 426588576}
+  - {fileID: 905501602}
+  - {fileID: 1256981948}
+  - {fileID: 1494804516}
   writeValuesMenuButtonClickHandlers: []
   triggersOrMenuButtonClickHandlers: []
   triggerAndMenuButtonClickHandlers: []
@@ -55029,7 +55039,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh15942
+  m_Name: pb_Mesh16686
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -113040,7 +113050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 2046695811}
-  buttonFunction: 
+  buttonFunction: Constant
   movementMenu: {fileID: 1669178769}
 --- !u!114 &2046695811
 MonoBehaviour:
@@ -115916,7 +115926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 2139747275}
-  buttonFunction: 
+  buttonFunction: Oscillation
   movementMenu: {fileID: 1669178769}
 --- !u!114 &2139747275
 MonoBehaviour:

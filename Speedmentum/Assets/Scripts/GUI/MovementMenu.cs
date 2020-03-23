@@ -27,9 +27,10 @@ public class MovementMenu : MonoBehaviour
     }
     public List<ButtonClickHandler> modesMenuButtonClickHandlers = new List<ButtonClickHandler>();
     //public List<ButtonClickHandler> modesMenuButtonClickHandlers = new List<ButtonClickHandler>(); //cant be List<List<ButtonClickHandler>> buttonClickHandlers = new List<List<ButtonClickHandler>>(); because then it doesnt show in the unity editor inspector, it must be done manually - https://www.youtube.com/watch?v=uoHc-Lz9Lsc //includes all buttons from the movementmenu inside so its possible to interact with them in this code (the button objects are set in unity editor)
-    public List<ButtonClickHandler> addReplaceMenuButtonClickHandlers = new List<ButtonClickHandler>();
+    //public List<ButtonClickHandler> addReplaceMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> modifiersMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> growthVariantsMenuButtonClickHandlers = new List<ButtonClickHandler>();
+    public List<ButtonClickHandler> declineVariantsMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> writeValuesMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> triggersOrMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> triggerAndMenuButtonClickHandlers = new List<ButtonClickHandler>();
@@ -107,18 +108,29 @@ public class MovementMenu : MonoBehaviour
 
     }
 
-    void lol()
-    {
-        
-        if (!modifiers.Contains(BasicMovement.Modifiers.PlayerSpeed)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+    void AddOrRemoveModifier(BasicMovement.Modifiers modifier) //BasicMovement.GrowthVariants
+    {        
+        if (!modifiers.Contains(modifier)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
         {
-            modifiers.Add(BasicMovement.Modifiers.PlayerSpeed);
+            modifiers.Add(modifier);
         }
         else
         {
-            modifiers.Remove(BasicMovement.Modifiers.PlayerSpeed);
+            modifiers.Remove(modifier);
         }
+    }
 
+    void AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants growthVariant) //BasicMovement.GrowthVariants
+    {
+        if (!growthVariants.Contains(growthVariant)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+        {
+            growthVariants.Add(growthVariant);
+            if (growthVariant == BasicMovement.GrowthVariants.Constant || ) //one value
+        }
+        else
+        {
+            growthVariants.Remove(growthVariant);
+        }
     }
 
     public void Button1Press()
@@ -136,11 +148,19 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.modifiersMenu: //dont forget to clean the lists after
-                modifiers.Add(BasicMovement.Modifiers.PlayerSpeed);
+                modifiersMenuButtonClickHandlers[0].KeyPress("PlayerSpeed");
+                AddOrRemoveModifier(BasicMovement.Modifiers.PlayerSpeed);
                 break;
 
-            case Menus.growthVariantsMenu: 
-                growthVariants.Add(BasicMovement.GrowthVariants.Constant);
+            case Menus.growthVariantsMenu:
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.Constant);
+                growthVariantsMenuButtonClickHandlers[0].KeyPress("Constant");
+                ChangeMenu(Menus.writeOneValueMenu);
+                break;
+
+            case Menus.declineVariantsMenu:
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.Constant);
+                declineVariantsMenuButtonClickHandlers[0].KeyPress("Constant");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
@@ -162,12 +182,20 @@ public class MovementMenu : MonoBehaviour
                 ChangeMenu(Menus.modifiersMenu);
                 break;
 
-            case Menus.modifiersMenu: 
-                modifiers.Add(BasicMovement.Modifiers.Gravity);
+            case Menus.modifiersMenu:
+                modifiersMenuButtonClickHandlers[1].KeyPress("Gravity");
+                AddOrRemoveModifier(BasicMovement.Modifiers.Gravity);
                 break;
 
             case Menus.growthVariantsMenu:
-                growthVariants.Add(BasicMovement.GrowthVariants.LinearlyIcreasing);
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.LinearlyIcreasing);
+                growthVariantsMenuButtonClickHandlers[1].KeyPress("LinearlyIcreasing");
+                ChangeMenu(Menus.writeOneValueMenu);
+                break;
+
+            case Menus.declineVariantsMenu:
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.LinearlyDecreasing);
+                declineVariantsMenuButtonClickHandlers[1].KeyPress("LinearlyDecreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
@@ -190,11 +218,19 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.modifiersMenu: 
-                modifiers.Add(BasicMovement.Modifiers.PhysUpdates);
+                modifiersMenuButtonClickHandlers[2].KeyPress("PhysUpdates");
+                AddOrRemoveModifier(BasicMovement.Modifiers.PhysUpdates);
                 break;
 
             case Menus.growthVariantsMenu:
-                growthVariants.Add(BasicMovement.GrowthVariants.ExponentiallyIncreasing);
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.ExponentiallyIncreasing);
+                growthVariantsMenuButtonClickHandlers[2].KeyPress("ExponentiallyIncreasing");
+                ChangeMenu(Menus.writeOneValueMenu);
+                break;
+
+            case Menus.declineVariantsMenu:
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.ExponentiallyDecreasing);
+                declineVariantsMenuButtonClickHandlers[2].KeyPress("ExponentiallyDecreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
@@ -216,12 +252,20 @@ public class MovementMenu : MonoBehaviour
                 ChangeMenu(Menus.modifiersMenu);
                 break;
 
-            case Menus.modifiersMenu: 
-                modifiers.Add(BasicMovement.Modifiers.JumpSpeed);
+            case Menus.modifiersMenu:
+                modifiersMenuButtonClickHandlers[3].KeyPress("JumpSpeed");
+                AddOrRemoveModifier(BasicMovement.Modifiers.JumpSpeed);
                 break;
 
             case Menus.growthVariantsMenu:
-                growthVariants.Add(BasicMovement.GrowthVariants.Oscillation);
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.Oscillation);
+                growthVariantsMenuButtonClickHandlers[3].KeyPress("Oscillation");
+                ChangeMenu(Menus.writeOneValueMenu);
+                break;
+
+            case Menus.declineVariantsMenu:
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.Oscillation);
+                declineVariantsMenuButtonClickHandlers[3].KeyPress("Oscillation");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
@@ -238,12 +282,20 @@ public class MovementMenu : MonoBehaviour
     {
         switch (currentMenu)
         {
-            case Menus.modifiersMenu: 
-                modifiers.Add(BasicMovement.Modifiers.JumpHeight);
+            case Menus.modifiersMenu:
+                modifiersMenuButtonClickHandlers[4].KeyPress("JumpHeight");
+                AddOrRemoveModifier(BasicMovement.Modifiers.JumpHeight);
                 break;
 
             case Menus.growthVariantsMenu:
-                growthVariants.Add(BasicMovement.GrowthVariants.SuperExponencialyIncreasing);
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.SuperExponencialyIncreasing);
+                growthVariantsMenuButtonClickHandlers[5].KeyPress("SuperExponencialyIncreasing");
+                ChangeMenu(Menus.writeOneValueMenu);
+                break;
+
+            case Menus.declineVariantsMenu:
+                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.SuperExponencialyDecreasing);
+                declineVariantsMenuButtonClickHandlers[5].KeyPress("SuperExponencialyDecreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
@@ -286,8 +338,9 @@ public class MovementMenu : MonoBehaviour
     {
         switch (currentMenu)
         {
-            case Menus.modifiersMenu: 
-                modifiers.Add(BasicMovement.Modifiers.PlayerMaxSpeed);
+            case Menus.modifiersMenu:
+                modifiersMenuButtonClickHandlers[7].KeyPress("PlayerMaxSpeed");
+                AddOrRemoveModifier(BasicMovement.Modifiers.PlayerMaxSpeed);
                 break;
 
             case Menus.writeOneValueMenu:
@@ -303,8 +356,9 @@ public class MovementMenu : MonoBehaviour
     {
         switch (currentMenu)
         {
-            case Menus.modifiersMenu: 
-                modifiers.Add(BasicMovement.Modifiers.Timescale);
+            case Menus.modifiersMenu:
+                modifiersMenuButtonClickHandlers[8].KeyPress("Timescale");
+                AddOrRemoveModifier(BasicMovement.Modifiers.Timescale);
                 break;
 
             case Menus.writeOneValueMenu:
@@ -373,6 +427,10 @@ public class MovementMenu : MonoBehaviour
                 Restart();
                 break;
 
+            case Menus.declineVariantsMenu:
+                Restart();
+                break;
+
             case Menus.writeOneValueMenu:
                 inputValue = inputValue.Remove(inputValue1.Length - 1); //remove last char
                 valueInputBox.text = inputValue;
@@ -395,13 +453,21 @@ public class MovementMenu : MonoBehaviour
                 ChangeMenu(Menus.triggersOrMenu);
                 break;
 
+            case Menus.declineVariantsMenu:
+                ChangeMenu(Menus.triggersOrMenu);
+                break;
+
             case Menus.writeOneValueMenu:
                 ChangeMenu(Menus.growthVariantsMenu);
+                List<float> tempListOfOneFloatValue = new List<float>() { float.Parse(inputValue) };
+                growthVariantsValues.Add(tempListOfOneFloatValue);
                 break;
 
             case Menus.writeTwoValuesMenu:
-                ChangeMenu(Menus.growthVariantsMenu);
+                List<float> tempListOTwoFloatValues = new List<float>() { float.Parse(inputValue1), float.Parse(inputValue2) };
+                growthVariantsValues.Add(tempListOTwoFloatValues);
                 isCurrentInputBoxTheFirstOne = true;
+                ChangeMenu(Menus.growthVariantsMenu);                
                 break;
         }
     }
@@ -410,6 +476,14 @@ public class MovementMenu : MonoBehaviour
     {
         switch (currentMenu)
         {
+            case Menus.growthVariantsMenu:
+                ChangeMenu(Menus.declineVariantsMenu);
+                break;
+
+            case Menus.declineVariantsMenu:
+                ChangeMenu(Menus.growthVariantsMenu);
+                break;
+
             case Menus.writeTwoValuesMenu:
                 isCurrentInputBoxTheFirstOne = !isCurrentInputBoxTheFirstOne;
                 break;
