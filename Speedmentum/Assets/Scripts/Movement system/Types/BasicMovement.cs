@@ -74,13 +74,14 @@ public class BasicMovement : MonoBehaviour
 
     //Dictionary<List, Tuple<List<Modifiers>, List<GrowthVariants>, List<List<float>>, List<Triggers>, List<Triggers>, int>> //triggers are: or, and //tuple can be object of its own, list in dictionary is weird
 
+    //first layer of lists = addons = modifier[0], growthVariants[0] etc. is the first addon
     public List<List<Modifiers>> modifiers = new List<List<Modifiers>>();
     public List<List<GrowthVariants>> growthVariants = new List<List<GrowthVariants>>();
     public List<List<List<float>>> growthVariantsValues = new List<List<List<float>>>();
     public List<List<Triggers>> orTriggers = new List<List<Triggers>>();
-    public List<List<Triggers>> andTriggers = new List<List<Triggers>>();
+    public List<List<List<Triggers>>> andTriggers = new List<List<List<Triggers>>>();
     //List<List<int>> andTriggersConditions = new List<List<int>>();
-    public List<int> andTriggersConditions = new List<int>(); //adds one 0 when a new modifier pack is added, before this code goes though it gets set to 0, and if one condition in andTriggers is true, it gets +1, when the number is as big as the andTriggers list, its completed and the game executes the code
+    public List<List<int>> andTriggersConditions = new List<List<int>>(); //adds one 0 when a new modifier pack is added, before this code goes though it gets set to 0, and if one condition in andTriggers is true, it gets +1, when the number is as big as the andTriggers list, its completed and the game executes the code
 
     void Start()
     {
@@ -96,7 +97,7 @@ public class BasicMovement : MonoBehaviour
 
         orTriggers.Add(new List<Triggers> { Triggers.Time});
 
-        andTriggersConditions.Add(0); 
+        andTriggersConditions.Add(new List<int> { 0,0 });
     }
     //void FixedUpdate()
     //{
@@ -106,7 +107,10 @@ public class BasicMovement : MonoBehaviour
     {
         for (int i = 0; i<andTriggersConditions.Count; i++) //reset all completed conditions
         {
-            andTriggersConditions[i] = 0;
+            for (int y = 0; y < andTriggersConditions.Count; y++) //reset all completed conditions
+            {
+                andTriggersConditions[i][y] = 0;
+            }
         }
 
         ScanTriggers(Triggers.Time);
@@ -228,11 +232,15 @@ public class BasicMovement : MonoBehaviour
         }
         for (int i = 0; i < andTriggers.Count; i++)
         {
-            if (andTriggers[i].Contains(trigger))
+            for (int y = 0; y < andTriggers[i].Count; y++)
             {
-                andTriggersConditions[i]++; //one condition of the and triggers is completed
-                if (andTriggersConditions[i] == andTriggers[i].Count) ScanModifierList(i); //if triggers are completed, start the code
+                if (andTriggers[i][y].Contains(trigger))
+                {
+                    andTriggersConditions[i][y]++; //one condition of the and triggers is completed
+                    if (andTriggersConditions[i][y] == andTriggers[y].Count) ScanModifierList(y); //if triggers are completed, start the code
+                }
             }
+
         }
     }
 

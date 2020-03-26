@@ -31,9 +31,9 @@ public class MovementMenu : MonoBehaviour
     public List<ButtonClickHandler> modifiersMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> growthVariantsMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> declineVariantsMenuButtonClickHandlers = new List<ButtonClickHandler>();
-    public List<ButtonClickHandler> writeValuesMenuButtonClickHandlers = new List<ButtonClickHandler>();
-    public List<ButtonClickHandler> triggersOrMenuButtonClickHandlers = new List<ButtonClickHandler>();
-    public List<ButtonClickHandler> triggerAndMenuButtonClickHandlers = new List<ButtonClickHandler>();
+    //public List<ButtonClickHandler> writeValuesMenuButtonClickHandlers = new List<ButtonClickHandler>();
+    public List<ButtonClickHandler> orTriggersMenuButtonClickHandlers = new List<ButtonClickHandler>();
+    public List<ButtonClickHandler> andTriggersMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> moreOrMenuButtonClickHandlers = new List<ButtonClickHandler>();
 
     public Menus currentMenu = Menus.modesMenu;
@@ -54,7 +54,7 @@ public class MovementMenu : MonoBehaviour
     List<BasicMovement.GrowthVariants> growthVariants = new List<BasicMovement.GrowthVariants>();
     List<List<float>> growthVariantsValues = new List<List<float>>();
     List<BasicMovement.Triggers> orTriggers = new List<BasicMovement.Triggers>();
-    List<BasicMovement.Triggers> andTriggers = new List<BasicMovement.Triggers>();
+    List<List<BasicMovement.Triggers>> andTriggers = new List<List<BasicMovement.Triggers>>();
 
     [SerializeField] TextMeshProUGUI valueInputBox; //for one value menu
     [SerializeField] TextMeshProUGUI valueInputBox1; //for two values menu
@@ -125,13 +125,36 @@ public class MovementMenu : MonoBehaviour
         if (!growthVariants.Contains(growthVariant)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
         {
             growthVariants.Add(growthVariant);
-            if (growthVariant == BasicMovement.GrowthVariants.Constant || ) //one value
         }
         else
         {
             growthVariants.Remove(growthVariant);
         }
     }
+
+    void AddOrRemoveOrTrigger(BasicMovement.Triggers trigger) //BasicMovement.GrowthVariants
+    {
+        if (!orTriggers.Contains(trigger)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+        {
+            orTriggers.Add(trigger);
+        }
+        else
+        {
+            orTriggers.Remove(trigger);
+        }
+    }
+
+    //void AddOrRemoveAndTrigger(BasicMovement.Triggers trigger) //BasicMovement.GrowthVariants
+    //{
+    //    if (!andTriggers.Contains(trigger)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+    //    {
+    //        andTriggers.Add(trigger);
+    //    }
+    //    else
+    //    {
+    //        andTriggers.Remove(trigger);
+    //    }
+    //}
 
     public void Button1Press()
     {
@@ -170,6 +193,12 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('1');
+                break;
+
+            case Menus.triggersOrMenu:
+                AddOrRemoveOrTrigger(BasicMovement.Triggers.Time);
+                growthVariantsMenuButtonClickHandlers[0].KeyPress("Constant");
+                ChangeMenu(Menus.writeOneValueMenu);
                 break;
         }
     }
@@ -458,15 +487,18 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.writeOneValueMenu:
-                ChangeMenu(Menus.growthVariantsMenu);
                 List<float> tempListOfOneFloatValue = new List<float>() { float.Parse(inputValue) };
                 growthVariantsValues.Add(tempListOfOneFloatValue);
+                inputValue = "";
+                ChangeMenu(Menus.growthVariantsMenu);
                 break;
 
             case Menus.writeTwoValuesMenu:
                 List<float> tempListOTwoFloatValues = new List<float>() { float.Parse(inputValue1), float.Parse(inputValue2) };
                 growthVariantsValues.Add(tempListOTwoFloatValues);
                 isCurrentInputBoxTheFirstOne = true;
+                inputValue1 = "";
+                inputValue2 = "";
                 ChangeMenu(Menus.growthVariantsMenu);                
                 break;
         }
