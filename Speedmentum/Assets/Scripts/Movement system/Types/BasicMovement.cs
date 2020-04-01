@@ -35,9 +35,10 @@ public class BasicMovement : MonoBehaviour
         Time,
         Jump,
         MouseShaking,
-        Walking,
+        WalkingForwards,
         PlayerInAir,
-        PlayerOnGround
+        PlayerOnGround,
+        WalkingSideways
     }
 
     public CharacterController controller;
@@ -95,9 +96,9 @@ public class BasicMovement : MonoBehaviour
         //orTriggers.Add(new List<Triggers> { Triggers.PlayerOnGround, Triggers.MouseShaking });
         //andTriggers.Add(new List<Triggers> { Triggers.PlayerInAir });
 
-        orTriggers.Add(new List<Triggers> { Triggers.Time});
+        orTriggers.Add(new List<Triggers> { Triggers.Time });
 
-        andTriggersConditions.Add(new List<int> { 0,0 });
+        //andTriggersConditions.Add(new List<int> { 0, 0 });
     }
     //void FixedUpdate()
     //{

@@ -49,6 +49,7 @@ public class InputSystem : MonoBehaviour
         controls.GuiControls.MenuKeyF7.performed += context => movementMenu.ButtonF7Press();
         controls.GuiControls.MenuKeyF8.performed += context => movementMenu.ButtonF8Press();
         controls.GuiControls.MenuKeyF9.performed += context => movementMenu.ButtonF9Press();
+        controls.GuiControls.MenuKey0.performed += context => movementMenu.Button0Press();
 
     }
 

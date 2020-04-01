@@ -30,9 +30,13 @@ public class ButtonClickHandler : MonoBehaviour
     }
     public void KeyPress(string requestedFunction) //each button has this function and with each mode key press on the keyboard it scans all the buttons and tries to find which button's KeyCode is the same like the one that just got pressed
     {
+        //Debug.Log(buttonFunction);
+        //Debug.Log(requestedFunction);
         if (buttonFunction == requestedFunction) 
         {
+            Debug.Log("test");
             isEnabled = !isEnabled;
+            
             //if (MovementModeController.enabledModes.Contains(buttonMode)) //if the enabledModes list that includes all currently enabled modes has the button's set button mode in it, it plays an animation of the button being pressed, if it doesnt include it, it reverts that animation (animation of the key being unpressed)
             if (isEnabled)
             {

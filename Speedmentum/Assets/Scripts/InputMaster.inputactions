@@ -435,6 +435,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "MenuKey0",
+                    "type": "Button",
+                    "id": "e4850ae5-11e7-476a-829c-7fb27518cf5e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -721,6 +729,17 @@
                     "processors": "",
                     "groups": "Keyboard and mouse",
                     "action": "DotKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e22221a-8db0-4fd7-9941-39b3fb24f46e",
+                    "path": "<Keyboard>/0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and mouse",
+                    "action": "MenuKey0",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

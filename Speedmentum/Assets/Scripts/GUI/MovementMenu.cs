@@ -21,8 +21,8 @@ public class MovementMenu : MonoBehaviour
         declineVariantsMenu,
         writeOneValueMenu,
         writeTwoValuesMenu,
-        triggersOrMenu,
-        triggerAndMenu,
+        orTriggersMenu,
+        andTriggersMenu,
         moreOrMenu
     }
     public List<ButtonClickHandler> modesMenuButtonClickHandlers = new List<ButtonClickHandler>();
@@ -34,7 +34,7 @@ public class MovementMenu : MonoBehaviour
     //public List<ButtonClickHandler> writeValuesMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> orTriggersMenuButtonClickHandlers = new List<ButtonClickHandler>();
     public List<ButtonClickHandler> andTriggersMenuButtonClickHandlers = new List<ButtonClickHandler>();
-    public List<ButtonClickHandler> moreOrMenuButtonClickHandlers = new List<ButtonClickHandler>();
+    //public List<ButtonClickHandler> moreOrMenuButtonClickHandlers = new List<ButtonClickHandler>();
 
     public Menus currentMenu = Menus.modesMenu;
     bool isCurrentMenuEnabled = false;
@@ -55,6 +55,7 @@ public class MovementMenu : MonoBehaviour
     List<List<float>> growthVariantsValues = new List<List<float>>();
     List<BasicMovement.Triggers> orTriggers = new List<BasicMovement.Triggers>();
     List<List<BasicMovement.Triggers>> andTriggers = new List<List<BasicMovement.Triggers>>();
+    List<BasicMovement.Triggers> tempAndTriggers = new List<BasicMovement.Triggers>(); //this is being filled in the menu and after its done its added to the andTriggers list and the insides are removed 
 
     [SerializeField] TextMeshProUGUI valueInputBox; //for one value menu
     [SerializeField] TextMeshProUGUI valueInputBox1; //for two values menu
@@ -80,6 +81,29 @@ public class MovementMenu : MonoBehaviour
             ChangeMenu((Menus)((int)currentMenu + 1));
         }
     }
+
+    void Finish()
+    {
+        basicMovement.modifiers.Add(modifiers);
+        basicMovement.growthVariants.Add(growthVariants);
+        basicMovement.growthVariantsValues.Add(growthVariantsValues);
+        basicMovement.orTriggers.Add(orTriggers);
+        basicMovement.andTriggers.Add(andTriggers);
+        basicMovement.growthVariantsValues.Add(growthVariantsValues);
+        ResetValues();
+    }
+
+    void ResetValues() //dodělat
+    {
+        modifiers.Clear();
+        growthVariants.Clear();
+        growthVariantsValues.Clear();
+        orTriggers.Clear();
+        andTriggers.Clear();
+        growthVariantsValues.Clear();
+        ChangeMenu(Menus.modesMenu);
+    }
+
     void ChangeMenu(Menus nextMenu)
     {
         menus[(int)currentMenu].position = menus[(int)currentMenu].position + new Vector3(0, 1000, 0);
@@ -144,17 +168,17 @@ public class MovementMenu : MonoBehaviour
         }
     }
 
-    //void AddOrRemoveAndTrigger(BasicMovement.Triggers trigger) //BasicMovement.GrowthVariants
-    //{
-    //    if (!andTriggers.Contains(trigger)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
-    //    {
-    //        andTriggers.Add(trigger);
-    //    }
-    //    else
-    //    {
-    //        andTriggers.Remove(trigger);
-    //    }
-    //}
+    void AddOrRemoveAndTrigger(BasicMovement.Triggers trigger) //BasicMovement.GrowthVariants
+    {
+        if (!tempAndTriggers.Contains(trigger)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+        {
+            tempAndTriggers.Add(trigger);
+        }
+        else
+        {
+            tempAndTriggers.Remove(trigger);
+        }
+    }
 
     public void Button1Press()
     {
@@ -195,10 +219,18 @@ public class MovementMenu : MonoBehaviour
                 AddCharToAnInputValueInTwoValuesMenu('1');
                 break;
 
-            case Menus.triggersOrMenu:
+            case Menus.orTriggersMenu:
                 AddOrRemoveOrTrigger(BasicMovement.Triggers.Time);
-                growthVariantsMenuButtonClickHandlers[0].KeyPress("Constant");
-                ChangeMenu(Menus.writeOneValueMenu);
+                orTriggersMenuButtonClickHandlers[0].KeyPress("Time");
+                break;
+
+            case Menus.andTriggersMenu:
+                AddOrRemoveAndTrigger(BasicMovement.Triggers.Time);
+                andTriggersMenuButtonClickHandlers[0].KeyPress("Time");
+                break;
+
+            case Menus.moreOrMenu:
+                ChangeMenu(Menus.andTriggersMenu);
                 break;
         }
     }
@@ -235,6 +267,20 @@ public class MovementMenu : MonoBehaviour
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('2');
                 break;
+
+            case Menus.orTriggersMenu:
+                AddOrRemoveOrTrigger(BasicMovement.Triggers.Jump);
+                orTriggersMenuButtonClickHandlers[1].KeyPress("Jump");
+                break;
+
+            case Menus.andTriggersMenu:
+                AddOrRemoveAndTrigger(BasicMovement.Triggers.Jump);
+                andTriggersMenuButtonClickHandlers[1].KeyPress("Jump");
+                break;
+
+            case Menus.moreOrMenu:
+                Finish();
+                break;
         }
     }
     public void Button3Press()
@@ -269,6 +315,16 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('3');
+                break;
+
+            case Menus.orTriggersMenu:
+                AddOrRemoveOrTrigger(BasicMovement.Triggers.MouseShaking);
+                orTriggersMenuButtonClickHandlers[2].KeyPress("MouseShaking");
+                break;
+
+            case Menus.andTriggersMenu:
+                AddOrRemoveAndTrigger(BasicMovement.Triggers.MouseShaking);
+                andTriggersMenuButtonClickHandlers[2].KeyPress("MouseShaking");
                 break;
         }
     }
@@ -305,6 +361,16 @@ public class MovementMenu : MonoBehaviour
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('4');
                 break;
+
+            case Menus.orTriggersMenu:
+                AddOrRemoveOrTrigger(BasicMovement.Triggers.WalkingForwards);
+                orTriggersMenuButtonClickHandlers[3].KeyPress("WalkingForwards");
+                break;
+
+            case Menus.andTriggersMenu:
+                AddOrRemoveAndTrigger(BasicMovement.Triggers.WalkingForwards);
+                andTriggersMenuButtonClickHandlers[3].KeyPress("WalkingForwards");
+                break;
         }
     }
     public void Button5Press()
@@ -318,13 +384,13 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.growthVariantsMenu:
                 AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.SuperExponencialyIncreasing);
-                growthVariantsMenuButtonClickHandlers[5].KeyPress("SuperExponencialyIncreasing");
+                growthVariantsMenuButtonClickHandlers[4].KeyPress("SuperExponencialyIncreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
             case Menus.declineVariantsMenu:
                 AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.SuperExponencialyDecreasing);
-                declineVariantsMenuButtonClickHandlers[5].KeyPress("SuperExponencialyDecreasing");
+                declineVariantsMenuButtonClickHandlers[4].KeyPress("SuperExponencialyDecreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
@@ -334,6 +400,16 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('5');
+                break;
+
+            case Menus.orTriggersMenu:
+                AddOrRemoveOrTrigger(BasicMovement.Triggers.PlayerInAir);
+                orTriggersMenuButtonClickHandlers[4].KeyPress("PlayerInAir");
+                break;
+
+            case Menus.andTriggersMenu:
+                AddOrRemoveAndTrigger(BasicMovement.Triggers.PlayerInAir);
+                andTriggersMenuButtonClickHandlers[4].KeyPress("PlayerInAir");
                 break;
         }
     }
@@ -348,6 +424,16 @@ public class MovementMenu : MonoBehaviour
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('6');
                 break;
+
+            case Menus.orTriggersMenu:
+                AddOrRemoveOrTrigger(BasicMovement.Triggers.PlayerOnGround);
+                orTriggersMenuButtonClickHandlers[5].KeyPress("PlayerOnGround");
+                break;
+
+            case Menus.andTriggersMenu:
+                AddOrRemoveAndTrigger(BasicMovement.Triggers.PlayerOnGround);
+                andTriggersMenuButtonClickHandlers[5].KeyPress("PlayerOnGround");
+                break;
         }
     }
     public void Button7Press()
@@ -360,6 +446,16 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('7');
+                break;
+
+            case Menus.orTriggersMenu:
+                AddOrRemoveOrTrigger(BasicMovement.Triggers.WalkingSideways);
+                orTriggersMenuButtonClickHandlers[6].KeyPress("WalkingSideways");
+                break;
+
+            case Menus.andTriggersMenu:
+                AddOrRemoveAndTrigger(BasicMovement.Triggers.WalkingSideways);
+                andTriggersMenuButtonClickHandlers[6].KeyPress("WalkingSideways");
                 break;
         }
     }
@@ -379,6 +475,8 @@ public class MovementMenu : MonoBehaviour
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('8');
                 break;
+
+
         }
     }
     public void Button9Press()
@@ -396,6 +494,19 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.writeTwoValuesMenu:
                 AddCharToAnInputValueInTwoValuesMenu('9');
+                break;
+        }
+    }
+    public void Button0Press()
+    {
+        switch (currentMenu)
+        {
+            case Menus.writeOneValueMenu:
+                AddCharToAnInputValueInOneValueMenu('0');
+                break;
+
+            case Menus.writeTwoValuesMenu:
+                AddCharToAnInputValueInTwoValuesMenu('0');
                 break;
         }
     }
@@ -445,28 +556,36 @@ public class MovementMenu : MonoBehaviour
         switch (currentMenu)
         {
             case Menus.addReplaceMenu:
-                Restart();
+                ResetValues();
                 break;
 
             case Menus.modifiersMenu:
-                Restart();
+                ResetValues();
                 break;
 
             case Menus.growthVariantsMenu:
-                Restart();
+                ResetValues();
                 break;
 
             case Menus.declineVariantsMenu:
-                Restart();
+                ResetValues();
                 break;
 
             case Menus.writeOneValueMenu:
-                inputValue = inputValue.Remove(inputValue1.Length - 1); //remove last char
+                inputValue = inputValue.Remove(inputValue.Length - 1); //remove last char
                 valueInputBox.text = inputValue;
                 break;
 
             case Menus.writeTwoValuesMenu:
                 RemCharToAnInputValueInTwoValuesMenu();
+                break;
+
+            case Menus.orTriggersMenu:
+                ResetValues();
+                break;
+
+            case Menus.andTriggersMenu:
+                ResetValues();
                 break;
         }
     }
@@ -479,11 +598,11 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.growthVariantsMenu:
-                ChangeMenu(Menus.triggersOrMenu);
+                ChangeMenu(Menus.orTriggersMenu);
                 break;
 
             case Menus.declineVariantsMenu:
-                ChangeMenu(Menus.triggersOrMenu);
+                ChangeMenu(Menus.orTriggersMenu);
                 break;
 
             case Menus.writeOneValueMenu:
@@ -500,6 +619,16 @@ public class MovementMenu : MonoBehaviour
                 inputValue1 = "";
                 inputValue2 = "";
                 ChangeMenu(Menus.growthVariantsMenu);                
+                break;
+
+            case Menus.orTriggersMenu:
+                ChangeMenu(Menus.andTriggersMenu);
+                break;
+
+            case Menus.andTriggersMenu:
+                andTriggers.Add(tempAndTriggers);
+                tempAndTriggers.Clear();
+                ChangeMenu(Menus.moreOrMenu);
                 break;
         }
     }
@@ -536,11 +665,7 @@ public class MovementMenu : MonoBehaviour
         }
     }
 
-    void Restart() //dodělat
-    {
-        ChangeMenu(Menus.modesMenu);
-        //dodělat vymazat proměnný 
-    }
+
 
     public void ShowMovementMenuKeyPress() //happens when showmovement key is pressed
     {

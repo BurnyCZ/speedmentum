@@ -448,6 +448,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MenuKey0"",
+                    ""type"": ""Button"",
+                    ""id"": ""e4850ae5-11e7-476a-829c-7fb27518cf5e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -736,6 +744,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""DotKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e22221a-8db0-4fd7-9941-39b3fb24f46e"",
+                    ""path"": ""<Keyboard>/0"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""MenuKey0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -798,6 +817,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_GuiControls_MenuKeyF7 = m_GuiControls.FindAction("MenuKeyF7", throwIfNotFound: true);
         m_GuiControls_MenuKeyF8 = m_GuiControls.FindAction("MenuKeyF8", throwIfNotFound: true);
         m_GuiControls_MenuKeyF9 = m_GuiControls.FindAction("MenuKeyF9", throwIfNotFound: true);
+        m_GuiControls_MenuKey0 = m_GuiControls.FindAction("MenuKey0", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -970,6 +990,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_GuiControls_MenuKeyF7;
     private readonly InputAction m_GuiControls_MenuKeyF8;
     private readonly InputAction m_GuiControls_MenuKeyF9;
+    private readonly InputAction m_GuiControls_MenuKey0;
     public struct GuiControlsActions
     {
         private @InputMaster m_Wrapper;
@@ -1000,6 +1021,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @MenuKeyF7 => m_Wrapper.m_GuiControls_MenuKeyF7;
         public InputAction @MenuKeyF8 => m_Wrapper.m_GuiControls_MenuKeyF8;
         public InputAction @MenuKeyF9 => m_Wrapper.m_GuiControls_MenuKeyF9;
+        public InputAction @MenuKey0 => m_Wrapper.m_GuiControls_MenuKey0;
         public InputActionMap Get() { return m_Wrapper.m_GuiControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1087,6 +1109,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @MenuKeyF9.started -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKeyF9;
                 @MenuKeyF9.performed -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKeyF9;
                 @MenuKeyF9.canceled -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKeyF9;
+                @MenuKey0.started -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKey0;
+                @MenuKey0.performed -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKey0;
+                @MenuKey0.canceled -= m_Wrapper.m_GuiControlsActionsCallbackInterface.OnMenuKey0;
             }
             m_Wrapper.m_GuiControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -1169,6 +1194,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @MenuKeyF9.started += instance.OnMenuKeyF9;
                 @MenuKeyF9.performed += instance.OnMenuKeyF9;
                 @MenuKeyF9.canceled += instance.OnMenuKeyF9;
+                @MenuKey0.started += instance.OnMenuKey0;
+                @MenuKey0.performed += instance.OnMenuKey0;
+                @MenuKey0.canceled += instance.OnMenuKey0;
             }
         }
     }
@@ -1222,5 +1250,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnMenuKeyF7(InputAction.CallbackContext context);
         void OnMenuKeyF8(InputAction.CallbackContext context);
         void OnMenuKeyF9(InputAction.CallbackContext context);
+        void OnMenuKey0(InputAction.CallbackContext context);
     }
 }
