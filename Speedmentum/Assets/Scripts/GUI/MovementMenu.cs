@@ -7,6 +7,53 @@ using TMPro;
 
 public class MovementMenu : MonoBehaviour
 {
+    public enum Modifiers
+    {
+        Null,
+        PlayerSpeed,
+        Gravity,
+        PhysUpdates,
+        JumpSpeed, //if holding w, you also gain forward speed
+        JumpHeight,
+        PlayerMaxSpeed,
+        Timescale
+    }
+    public enum GrowthVariants
+    {
+        Null,
+        Constant, //y=LastFrame
+        LinearlyIcreasing, //y=LastFrame+x
+        LinearlyDecreasing, //y=LastFrame-x
+        ExponentiallyIncreasing, //y=LastFrame*x
+        ExponentiallyDecreasing, //y=LastFrame/x
+        Oscillation,
+        SuperExponencialyIncreasing, //y=lastframe^x
+        SuperExponencialyDecreasing //y=sqr(lastframe)
+    }
+
+    public enum Triggers
+    {
+        Null,
+        Time,
+        Jump,
+        MouseShaking,
+        WalkingForwards,
+        PlayerInAir,
+        PlayerOnGround,
+        WalkingSideways
+    }
+
+    //Dictionary<List, Tuple<List<Modifiers>, List<GrowthVariants>, List<List<float>>, List<Triggers>, List<Triggers>, int>> //triggers are: or, and //tuple can be object of its own, list in dictionary is weird
+    //float nullValue = 0.694203147f;
+    //first layer of lists = addons = modifier[0], growthVariants[0] etc. is the first addon
+    public List<List<Modifiers>> modifiers = new List<List<Modifiers>> { new List<Modifiers> { Modifiers.Null }};
+    public List<List<GrowthVariants>> growthVariants = new List<List<GrowthVariants>> { new List<GrowthVariants> { GrowthVariants.Null } };
+    public List<List<List<float>>> growthVariantsValues = new List<List<List<float>>> { new List<List<float>> { new List<float>()} };
+    public List<List<Triggers>> orTriggers = new List<List<Triggers>> { new List<Triggers> { Triggers.Null } };
+    public List<List<List<Triggers>>> andTriggers = new List<List<List<Triggers>>> { new List<List<Triggers>> { new List<Triggers>() { Triggers.Null } } };
+    //List<List<int>> andTriggersConditions = new List<List<int>>();
+    public List<List<int>> andTriggersConditions = new List<List<int>>(); //adds one 0 when a new modifier pack is added, before this code goes though it gets set to 0, and if one condition in andTriggers is true, it gets +1, when the number is as big as the andTriggers list, its completed and the game executes the code
+
     public MovementModeController movementModeController;
     public BasicMovement basicMovement;
 
@@ -50,12 +97,12 @@ public class MovementMenu : MonoBehaviour
     }
     Actions action;
     //setting up the modifier properties
-    List<BasicMovement.Modifiers> modifiers = new List<BasicMovement.Modifiers>();
-    List<BasicMovement.GrowthVariants> growthVariants = new List<BasicMovement.GrowthVariants>();
-    List<List<float>> growthVariantsValues = new List<List<float>>();
-    List<BasicMovement.Triggers> orTriggers = new List<BasicMovement.Triggers>();
-    List<List<BasicMovement.Triggers>> andTriggers = new List<List<BasicMovement.Triggers>>();
-    List<BasicMovement.Triggers> tempAndTriggers = new List<BasicMovement.Triggers>(); //this is being filled in the menu and after its done its added to the andTriggers list and the insides are removed 
+    //List<Modifiers> tempModifiers = new List<Modifiers> {Modifiers.Null};
+    //List<GrowthVariants> tempGrowthVariants = new List<GrowthVariants> { GrowthVariants.Null };
+    //List<List<float>> tempGrowthVariantsValues = new List<List<float>> { null };
+    //List<Triggers> tempOrTriggers = new List<Triggers> { Triggers.Null };
+    ////List<List<Triggers>> tempAndTriggers = new List<List<Triggers>> { Modifiers.Null };
+    //List<Triggers> tempForTempAndTriggers = new List<Triggers> { Triggers.Null }; //this is being filled in the menu and after its done its added to the andTriggers list and the insides are removed 
 
     [SerializeField] TextMeshProUGUI valueInputBox; //for one value menu
     [SerializeField] TextMeshProUGUI valueInputBox1; //for two values menu
@@ -72,6 +119,8 @@ public class MovementMenu : MonoBehaviour
             // menus[(int)Menus.modesMenu].position = menus[(int)Menus.modesMenu].position + new Vector3(0, 1000, 0);
             menus[i].position = menus[i].position + new Vector3(0, 1000, 0);
         } //offset at first frame - done like this instead of having its default position somewhere else because if its the other case, it behaves differently on different resolutions for some reason so the movement menu does wont be in the middl of the screen if triggered
+
+
     }
     // Update is called once per frame
     void Update()
@@ -80,27 +129,167 @@ public class MovementMenu : MonoBehaviour
         {
             ChangeMenu((Menus)((int)currentMenu + 1));
         }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            List<Modifiers> temppModifiers = new List<Modifiers>();
+            temppModifiers.Add(Modifiers.Gravity);
+                temppModifiers.Add(Modifiers.PlayerMaxSpeed);
+            modifiers.Add(temppModifiers);
+            growthVariants.Add(new List<GrowthVariants> { GrowthVariants.ExponentiallyIncreasing });
+            orTriggers.Add(new List<Triggers> { Triggers.Time });
+
+            string modifiesString = "";
+            foreach (Modifiers modifier in temppModifiers)
+            {
+                modifiesString = modifiesString + System.Convert.ToString(modifier);
+            }
+            Debug.Log("Adding modifiers:" + modifiesString);
+            string modifiesStringBasicMovement = "";
+            for (int i = 0; i < modifiers.Count; i++)
+            {
+                foreach (Modifiers modifier in modifiers[i])
+                {
+                    modifiesStringBasicMovement = modifiesStringBasicMovement + System.Convert.ToString(modifier);
+                }
+            }
+            Debug.Log("Added modifiers:" + modifiesStringBasicMovement);
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log("yo");
+            string modifiesStringBasicMovement = "";
+            for (int i = 0; i < modifiers.Count; i++)
+            {
+                foreach (Modifiers modifier in modifiers[i])
+                {
+                    modifiesStringBasicMovement = modifiesStringBasicMovement + System.Convert.ToString(modifier);
+                }
+            }
+            Debug.Log("modifiers:" + modifiesStringBasicMovement);
+            string growthVariantsStringBasicMovement = "";
+            for (int i = 0; i < growthVariants.Count; i++)
+            {
+                foreach (GrowthVariants growthVariant in growthVariants[i])
+                {
+                    growthVariantsStringBasicMovement = growthVariantsStringBasicMovement + System.Convert.ToString(growthVariant);
+                }
+            }
+            Debug.Log("growthVariants:" + growthVariantsStringBasicMovement);
+            string orTriggersStringBasicMovement = "";
+            for (int i = 0; i < orTriggers.Count; i++)
+            {
+                foreach (Triggers orTrigger in orTriggers[i])
+                {
+                    orTriggersStringBasicMovement = orTriggersStringBasicMovement + System.Convert.ToString(orTrigger);
+                }
+            }
+            Debug.Log("orTriggers:" + orTriggersStringBasicMovement);
+        }
     }
 
     void Finish()
     {
-        basicMovement.modifiers.Add(modifiers);
-        basicMovement.growthVariants.Add(growthVariants);
-        basicMovement.growthVariantsValues.Add(growthVariantsValues);
-        basicMovement.orTriggers.Add(orTriggers);
-        basicMovement.andTriggers.Add(andTriggers);
-        basicMovement.growthVariantsValues.Add(growthVariantsValues);
-        ResetValues();
+        //modifiers.Add(List);
+        //modifiers.Add(new List<Modifiers>());
+        //modifiers[modifiers.Count - 1] = tempModifiers;
+        //var tempModifiersArray = modifiers.ToArray();
+        //modifiers.Add(tempModifiersArray);
+
+        //string modifiesString = "";
+        //foreach (Modifiers modifier in tempModifiers)
+        //{
+        //    modifiesString = modifiesString + System.Convert.ToString(modifier);
+        //}
+        //Debug.Log("Adding modifiers:" + modifiesString);
+        string modifiesStringBasicMovement = "";
+        for (int i = 0; i< modifiers.Count; i++)
+        {
+            foreach (Modifiers modifier in modifiers[i])
+            {
+                modifiesStringBasicMovement = modifiesStringBasicMovement + System.Convert.ToString(modifier);
+            }
+        }
+        Debug.Log("modifiers:" + modifiesStringBasicMovement);
+
+        
+        //growthVariants[growthVariants.Count - 1] = tempGrowthVariants;
+        //growthVariants.Add(tempGrowthVariants);
+
+        //string growthVariantsString = "";
+        //foreach (GrowthVariants growthVariant in tempGrowthVariants)
+        //{
+        //    growthVariantsString = growthVariantsString + System.Convert.ToString(growthVariant);
+        //}
+        //Debug.Log("Adding growthVariants:" + growthVariantsString);
+        string growthVariantsStringBasicMovement = "";
+        for (int i = 0; i < growthVariants.Count; i++)
+        {
+            foreach (GrowthVariants growthVariant in growthVariants[i])
+            {
+                growthVariantsStringBasicMovement = growthVariantsStringBasicMovement + System.Convert.ToString(growthVariant);
+            }
+        }
+        Debug.Log("growthVariants:" + growthVariantsStringBasicMovement);
+
+        //////////////////growthVariantsValues.Add(float i );
+        //////////////////growthVariants[growthVariants.Count - 1] = tempGrowthVariants;
+        //////////////////growthVariantsValues.Add(tempGrowthVariantsValues);
+
+        //string growthVariantsValuesString = "";
+        //foreach (BasicMovement.GrowthVariantsValues growthVariantsValues in modifiers)
+        //{
+        //    modifiesString = modifiesString + System.Convert.ToString(modifier);
+        //}
+        //Debug.Log("Adding modifiers:" + modifiesString);
+        //string modifiesStringBasicMovement = "";
+        //for (int i = 0; i < basicMovement.modifiers.Count; i++)
+        //{
+        //    foreach (BasicMovement.Modifiers modifier in basicMovement.modifiers[i])
+        //    {
+        //        modifiesStringBasicMovement = modifiesStringBasicMovement + System.Convert.ToString(modifier);
+        //    }
+        //}
+        //Debug.Log("Added modifiers:" + modifiesStringBasicMovement);
+
+        //orTriggers.Add(tempOrTriggers);
+        
+        //orTriggers[orTriggers.Count - 1] = tempOrTriggers;
+
+
+        //string orTriggersString = "";
+        //foreach (Triggers orTrigger in tempOrTriggers)
+        //{
+        //    orTriggersString = orTriggersString + System.Convert.ToString(orTrigger);
+        //}
+        //Debug.Log("Adding orTriggers:" + orTriggersString);
+        string orTriggersStringBasicMovement = "";
+        for (int i = 0; i < orTriggers.Count; i++)
+        {
+            foreach (Triggers orTrigger in orTriggers[i])
+            {
+                orTriggersStringBasicMovement = orTriggersStringBasicMovement + System.Convert.ToString(orTrigger);
+            }
+        }
+        Debug.Log("orTriggers:" + orTriggersStringBasicMovement);
+
+
+        modifiers.Add(new List<Modifiers>());
+        growthVariants.Add(new List<GrowthVariants>());
+        //growthVariantsValues.Add(new List<float>());
+        orTriggers.Add(new List<Triggers>());
+        //andTriggers.Add(new List<Triggers>());
+        //ResetValues();
     }
 
     void ResetValues() //dodělat
     {
-        modifiers.Clear();
-        growthVariants.Clear();
-        growthVariantsValues.Clear();
-        orTriggers.Clear();
-        andTriggers.Clear();
-        growthVariantsValues.Clear();
+        modifiers[modifiers.Count - 1].Clear();
+        growthVariants[modifiers.Count - 1].Clear();
+        //growthVariantsValues[modifiers.Count - 1].Clear();
+        orTriggers[modifiers.Count - 1].Clear();
+        //andTriggers[modifiers.Count - 1].Clear();
         ChangeMenu(Menus.modesMenu);
     }
 
@@ -132,52 +321,109 @@ public class MovementMenu : MonoBehaviour
 
     }
 
-    void AddOrRemoveModifier(BasicMovement.Modifiers modifier) //BasicMovement.GrowthVariants
-    {        
-        if (!modifiers.Contains(modifier)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+    void AddOrRemoveModifier(Modifiers modifier) //BasicMovement.GrowthVariants
+    {   
+        if (modifiers[modifiers.Count - 1].Count == 1)
         {
-            modifiers.Add(modifier);
+            if (modifiers[modifiers.Count - 1][0] == Modifiers.Null)
+            {
+                modifiers[modifiers.Count - 1][0] = modifier;
+            }
+            else if (modifiers[modifiers.Count - 1][0] == modifier)
+            {
+                modifiers[modifiers.Count - 1][0] = Modifiers.Null;
+            }
+            else modifiers[modifiers.Count - 1].Add(modifier);
         }
         else
         {
-            modifiers.Remove(modifier);
+            if (!modifiers[modifiers.Count - 1].Contains(modifier)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+            {
+                modifiers[modifiers.Count - 1].Add(modifier);
+            }
+            else
+            {
+                modifiers[modifiers.Count - 1].Remove(modifier);
+            }
+        }        
+    }
+
+    void AddOrRemoveGrowthVariant(GrowthVariants growthVariant) //BasicMovement.GrowthVariants
+    {
+        if (growthVariants[growthVariants.Count - 1].Count == 1)
+        {
+            if (growthVariants[growthVariants.Count - 1][0] == GrowthVariants.Null)
+            {
+                growthVariants[growthVariants.Count - 1][0] = growthVariant;
+            }
+            else if (growthVariants[growthVariants.Count - 1][0] == growthVariant)
+            {
+                growthVariants[growthVariants.Count - 1][0] = GrowthVariants.Null;
+            }
+            else growthVariants[growthVariants.Count - 1].Add(growthVariant);
+        }
+        else
+        {
+            if (!growthVariants[growthVariants.Count - 1].Contains(growthVariant)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+            {
+                growthVariants[growthVariants.Count - 1].Add(growthVariant);
+            }
+            else
+            {
+                growthVariants[growthVariants.Count - 1].Remove(growthVariant);
+            }
         }
     }
 
-    void AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants growthVariant) //BasicMovement.GrowthVariants
+    void AddOrRemoveOrTrigger(Triggers trigger) //BasicMovement.GrowthVariants
     {
-        if (!growthVariants.Contains(growthVariant)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+        if (orTriggers[orTriggers.Count - 1].Count == 1)
         {
-            growthVariants.Add(growthVariant);
+            if (orTriggers[orTriggers.Count - 1][0] == Triggers.Null)
+            {
+                orTriggers[orTriggers.Count - 1][0] = trigger;
+            }
+            else if (orTriggers[orTriggers.Count - 1][0] == trigger)
+            {
+                orTriggers[orTriggers.Count - 1][0] = Triggers.Null;
+            }
+            else orTriggers[orTriggers.Count - 1].Add(trigger);
         }
         else
         {
-            growthVariants.Remove(growthVariant);
+            if (!orTriggers[orTriggers.Count - 1].Contains(trigger)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+            {
+                orTriggers[orTriggers.Count - 1].Add(trigger);
+            }
+            else
+            {
+                orTriggers[orTriggers.Count - 1].Remove(trigger);
+            }
         }
     }
 
-    void AddOrRemoveOrTrigger(BasicMovement.Triggers trigger) //BasicMovement.GrowthVariants
+    void AddOrRemoveAndTrigger(Triggers trigger) //BasicMovement.GrowthVariants
     {
-        if (!orTriggers.Contains(trigger)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
+        //if (andTriggers[0] == null)
+        //{
+        //    andTriggers[0][0].Add(trigger);
+        //}
+        if (!andTriggers[andTriggers.Count - 1][andTriggers.Count - 1].Contains(trigger)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
         {
-            orTriggers.Add(trigger);
+            andTriggers[andTriggers.Count - 1][andTriggers.Count - 1].Add(trigger);
         }
         else
         {
-            orTriggers.Remove(trigger);
+            if (andTriggers[andTriggers.Count - 1].Count == 1)
+            {
+                //andTriggers[andTriggers.Count - 1][0] = Triggers.Null;
+            }
+            else
+            {
+                //andTriggers[andTriggers.Count - 1].Remove(trigger);
+            }
         }
-    }
 
-    void AddOrRemoveAndTrigger(BasicMovement.Triggers trigger) //BasicMovement.GrowthVariants
-    {
-        if (!tempAndTriggers.Contains(trigger)) //if the enabledModes list already includes the movement mode, it removes it, if not, it adds it
-        {
-            tempAndTriggers.Add(trigger);
-        }
-        else
-        {
-            tempAndTriggers.Remove(trigger);
-        }
     }
 
     public void Button1Press()
@@ -196,17 +442,17 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.modifiersMenu: //dont forget to clean the lists after
                 modifiersMenuButtonClickHandlers[0].KeyPress("PlayerSpeed");
-                AddOrRemoveModifier(BasicMovement.Modifiers.PlayerSpeed);
+                AddOrRemoveModifier(Modifiers.PlayerSpeed);
                 break;
 
             case Menus.growthVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.Constant);
+                AddOrRemoveGrowthVariant(GrowthVariants.Constant);
                 growthVariantsMenuButtonClickHandlers[0].KeyPress("Constant");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
             case Menus.declineVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.Constant);
+                AddOrRemoveGrowthVariant(GrowthVariants.Constant);
                 declineVariantsMenuButtonClickHandlers[0].KeyPress("Constant");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
@@ -220,12 +466,12 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.orTriggersMenu:
-                AddOrRemoveOrTrigger(BasicMovement.Triggers.Time);
+                AddOrRemoveOrTrigger(Triggers.Time);
                 orTriggersMenuButtonClickHandlers[0].KeyPress("Time");
                 break;
 
             case Menus.andTriggersMenu:
-                AddOrRemoveAndTrigger(BasicMovement.Triggers.Time);
+                AddOrRemoveAndTrigger(Triggers.Time);
                 andTriggersMenuButtonClickHandlers[0].KeyPress("Time");
                 break;
 
@@ -245,17 +491,17 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.modifiersMenu:
                 modifiersMenuButtonClickHandlers[1].KeyPress("Gravity");
-                AddOrRemoveModifier(BasicMovement.Modifiers.Gravity);
+                AddOrRemoveModifier(Modifiers.Gravity);
                 break;
 
             case Menus.growthVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.LinearlyIcreasing);
+                AddOrRemoveGrowthVariant(GrowthVariants.LinearlyIcreasing);
                 growthVariantsMenuButtonClickHandlers[1].KeyPress("LinearlyIcreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
             case Menus.declineVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.LinearlyDecreasing);
+                AddOrRemoveGrowthVariant(GrowthVariants.LinearlyDecreasing);
                 declineVariantsMenuButtonClickHandlers[1].KeyPress("LinearlyDecreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
@@ -269,12 +515,12 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.orTriggersMenu:
-                AddOrRemoveOrTrigger(BasicMovement.Triggers.Jump);
+                AddOrRemoveOrTrigger(Triggers.Jump);
                 orTriggersMenuButtonClickHandlers[1].KeyPress("Jump");
                 break;
 
             case Menus.andTriggersMenu:
-                AddOrRemoveAndTrigger(BasicMovement.Triggers.Jump);
+                AddOrRemoveAndTrigger(Triggers.Jump);
                 andTriggersMenuButtonClickHandlers[1].KeyPress("Jump");
                 break;
 
@@ -294,17 +540,17 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.modifiersMenu: 
                 modifiersMenuButtonClickHandlers[2].KeyPress("PhysUpdates");
-                AddOrRemoveModifier(BasicMovement.Modifiers.PhysUpdates);
+                AddOrRemoveModifier(Modifiers.PhysUpdates);
                 break;
 
             case Menus.growthVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.ExponentiallyIncreasing);
+                AddOrRemoveGrowthVariant(GrowthVariants.ExponentiallyIncreasing);
                 growthVariantsMenuButtonClickHandlers[2].KeyPress("ExponentiallyIncreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
             case Menus.declineVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.ExponentiallyDecreasing);
+                AddOrRemoveGrowthVariant(GrowthVariants.ExponentiallyDecreasing);
                 declineVariantsMenuButtonClickHandlers[2].KeyPress("ExponentiallyDecreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
@@ -318,12 +564,12 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.orTriggersMenu:
-                AddOrRemoveOrTrigger(BasicMovement.Triggers.MouseShaking);
+                AddOrRemoveOrTrigger(Triggers.MouseShaking);
                 orTriggersMenuButtonClickHandlers[2].KeyPress("MouseShaking");
                 break;
 
             case Menus.andTriggersMenu:
-                AddOrRemoveAndTrigger(BasicMovement.Triggers.MouseShaking);
+                AddOrRemoveAndTrigger(Triggers.MouseShaking);
                 andTriggersMenuButtonClickHandlers[2].KeyPress("MouseShaking");
                 break;
         }
@@ -339,17 +585,17 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.modifiersMenu:
                 modifiersMenuButtonClickHandlers[3].KeyPress("JumpSpeed");
-                AddOrRemoveModifier(BasicMovement.Modifiers.JumpSpeed);
+                AddOrRemoveModifier(Modifiers.JumpSpeed);
                 break;
 
             case Menus.growthVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.Oscillation);
+                AddOrRemoveGrowthVariant(GrowthVariants.Oscillation);
                 growthVariantsMenuButtonClickHandlers[3].KeyPress("Oscillation");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
             case Menus.declineVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.Oscillation);
+                AddOrRemoveGrowthVariant(GrowthVariants.Oscillation);
                 declineVariantsMenuButtonClickHandlers[3].KeyPress("Oscillation");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
@@ -363,12 +609,12 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.orTriggersMenu:
-                AddOrRemoveOrTrigger(BasicMovement.Triggers.WalkingForwards);
+                AddOrRemoveOrTrigger(Triggers.WalkingForwards);
                 orTriggersMenuButtonClickHandlers[3].KeyPress("WalkingForwards");
                 break;
 
             case Menus.andTriggersMenu:
-                AddOrRemoveAndTrigger(BasicMovement.Triggers.WalkingForwards);
+                AddOrRemoveAndTrigger(Triggers.WalkingForwards);
                 andTriggersMenuButtonClickHandlers[3].KeyPress("WalkingForwards");
                 break;
         }
@@ -379,17 +625,17 @@ public class MovementMenu : MonoBehaviour
         {
             case Menus.modifiersMenu:
                 modifiersMenuButtonClickHandlers[4].KeyPress("JumpHeight");
-                AddOrRemoveModifier(BasicMovement.Modifiers.JumpHeight);
+                AddOrRemoveModifier(Modifiers.JumpHeight);
                 break;
 
             case Menus.growthVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.SuperExponencialyIncreasing);
+                AddOrRemoveGrowthVariant(GrowthVariants.SuperExponencialyIncreasing);
                 growthVariantsMenuButtonClickHandlers[4].KeyPress("SuperExponencialyIncreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
 
             case Menus.declineVariantsMenu:
-                AddOrRemoveGrowthVariant(BasicMovement.GrowthVariants.SuperExponencialyDecreasing);
+                AddOrRemoveGrowthVariant(GrowthVariants.SuperExponencialyDecreasing);
                 declineVariantsMenuButtonClickHandlers[4].KeyPress("SuperExponencialyDecreasing");
                 ChangeMenu(Menus.writeOneValueMenu);
                 break;
@@ -403,12 +649,12 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.orTriggersMenu:
-                AddOrRemoveOrTrigger(BasicMovement.Triggers.PlayerInAir);
+                AddOrRemoveOrTrigger(Triggers.PlayerInAir);
                 orTriggersMenuButtonClickHandlers[4].KeyPress("PlayerInAir");
                 break;
 
             case Menus.andTriggersMenu:
-                AddOrRemoveAndTrigger(BasicMovement.Triggers.PlayerInAir);
+                AddOrRemoveAndTrigger(Triggers.PlayerInAir);
                 andTriggersMenuButtonClickHandlers[4].KeyPress("PlayerInAir");
                 break;
         }
@@ -426,12 +672,12 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.orTriggersMenu:
-                AddOrRemoveOrTrigger(BasicMovement.Triggers.PlayerOnGround);
+                AddOrRemoveOrTrigger(Triggers.PlayerOnGround);
                 orTriggersMenuButtonClickHandlers[5].KeyPress("PlayerOnGround");
                 break;
 
             case Menus.andTriggersMenu:
-                AddOrRemoveAndTrigger(BasicMovement.Triggers.PlayerOnGround);
+                AddOrRemoveAndTrigger(Triggers.PlayerOnGround);
                 andTriggersMenuButtonClickHandlers[5].KeyPress("PlayerOnGround");
                 break;
         }
@@ -449,12 +695,12 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.orTriggersMenu:
-                AddOrRemoveOrTrigger(BasicMovement.Triggers.WalkingSideways);
+                AddOrRemoveOrTrigger(Triggers.WalkingSideways);
                 orTriggersMenuButtonClickHandlers[6].KeyPress("WalkingSideways");
                 break;
 
             case Menus.andTriggersMenu:
-                AddOrRemoveAndTrigger(BasicMovement.Triggers.WalkingSideways);
+                AddOrRemoveAndTrigger(Triggers.WalkingSideways);
                 andTriggersMenuButtonClickHandlers[6].KeyPress("WalkingSideways");
                 break;
         }
@@ -465,7 +711,7 @@ public class MovementMenu : MonoBehaviour
         {
             case Menus.modifiersMenu:
                 modifiersMenuButtonClickHandlers[7].KeyPress("PlayerMaxSpeed");
-                AddOrRemoveModifier(BasicMovement.Modifiers.PlayerMaxSpeed);
+                AddOrRemoveModifier(Modifiers.PlayerMaxSpeed);
                 break;
 
             case Menus.writeOneValueMenu:
@@ -485,7 +731,7 @@ public class MovementMenu : MonoBehaviour
         {
             case Menus.modifiersMenu:
                 modifiersMenuButtonClickHandlers[8].KeyPress("Timescale");
-                AddOrRemoveModifier(BasicMovement.Modifiers.Timescale);
+                AddOrRemoveModifier(Modifiers.Timescale);
                 break;
 
             case Menus.writeOneValueMenu:
@@ -595,6 +841,11 @@ public class MovementMenu : MonoBehaviour
         {
             case Menus.modifiersMenu:
                 ChangeMenu(Menus.growthVariantsMenu);
+                //Debug.Log("Added:");
+                //foreach (Modifiers modifier in tempModifiers)
+                //{
+                //    Debug.Log(modifier);
+                //}
                 break;
 
             case Menus.growthVariantsMenu:
@@ -607,14 +858,14 @@ public class MovementMenu : MonoBehaviour
 
             case Menus.writeOneValueMenu:
                 List<float> tempListOfOneFloatValue = new List<float>() { float.Parse(inputValue) };
-                growthVariantsValues.Add(tempListOfOneFloatValue);
+                //tempGrowthVariantsValues.Add(tempListOfOneFloatValue);
                 inputValue = "";
                 ChangeMenu(Menus.growthVariantsMenu);
                 break;
 
             case Menus.writeTwoValuesMenu:
                 List<float> tempListOTwoFloatValues = new List<float>() { float.Parse(inputValue1), float.Parse(inputValue2) };
-                growthVariantsValues.Add(tempListOTwoFloatValues);
+                //tempGrowthVariantsValues.Add(tempListOTwoFloatValues);
                 isCurrentInputBoxTheFirstOne = true;
                 inputValue1 = "";
                 inputValue2 = "";
@@ -626,8 +877,8 @@ public class MovementMenu : MonoBehaviour
                 break;
 
             case Menus.andTriggersMenu:
-                andTriggers.Add(tempAndTriggers);
-                tempAndTriggers.Clear();
+                //tempAndTriggers.Add(tempForTempAndTriggers);
+                
                 ChangeMenu(Menus.moreOrMenu);
                 break;
         }
@@ -672,7 +923,7 @@ public class MovementMenu : MonoBehaviour
         isCurrentMenuEnabled = !isCurrentMenuEnabled;
         if (isCurrentMenuEnabled) menus[(int)currentMenu].position = menus[(int)currentMenu].position - new Vector3(0, 1000, 0);  //makes the current menu screen visible/invisible
         else menus[(int)currentMenu].position = menus[(int)currentMenu].position + new Vector3(0, 1000, 0);
-        Debug.Log("test");
+        //Debug.Log("test");
     }
 
 }

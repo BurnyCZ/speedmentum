@@ -8,38 +8,7 @@ using UnityEngine;
 
 public class BasicMovement : MonoBehaviour
 {
-    public enum Modifiers
-    {
-        PlayerSpeed,
-        Gravity,
-        PhysUpdates,
-        JumpSpeed, //if holding w, you also gain forward speed
-        JumpHeight,
-        PlayerMaxSpeed,
-        Timescale
-    }
-    public enum GrowthVariants
-    {
-        Constant, //y=LastFrame
-        LinearlyIcreasing, //y=LastFrame+x
-        LinearlyDecreasing, //y=LastFrame-x
-        ExponentiallyIncreasing, //y=LastFrame*x
-        ExponentiallyDecreasing, //y=LastFrame/x
-        Oscillation,
-        SuperExponencialyIncreasing, //y=lastframe^x
-        SuperExponencialyDecreasing //y=sqr(lastframe)
-    }
 
-    public enum Triggers
-    {
-        Time,
-        Jump,
-        MouseShaking,
-        WalkingForwards,
-        PlayerInAir,
-        PlayerOnGround,
-        WalkingSideways
-    }
 
     public CharacterController controller;
     public Transform groundCheck;
@@ -73,22 +42,16 @@ public class BasicMovement : MonoBehaviour
 
     public bool isItJump = false;
 
-    //Dictionary<List, Tuple<List<Modifiers>, List<GrowthVariants>, List<List<float>>, List<Triggers>, List<Triggers>, int>> //triggers are: or, and //tuple can be object of its own, list in dictionary is weird
+    public MovementMenu movementMenu;
 
-    //first layer of lists = addons = modifier[0], growthVariants[0] etc. is the first addon
-    public List<List<Modifiers>> modifiers = new List<List<Modifiers>>();
-    public List<List<GrowthVariants>> growthVariants = new List<List<GrowthVariants>>();
-    public List<List<List<float>>> growthVariantsValues = new List<List<List<float>>>();
-    public List<List<Triggers>> orTriggers = new List<List<Triggers>>();
-    public List<List<List<Triggers>>> andTriggers = new List<List<List<Triggers>>>();
-    //List<List<int>> andTriggersConditions = new List<List<int>>();
-    public List<List<int>> andTriggersConditions = new List<List<int>>(); //adds one 0 when a new modifier pack is added, before this code goes though it gets set to 0, and if one condition in andTriggers is true, it gets +1, when the number is as big as the andTriggers list, its completed and the game executes the code
+
 
     void Start()
     {
 
-        modifiers.Add(new List<Modifiers> { Modifiers.PlayerMaxSpeed, Modifiers.Gravity });
-        growthVariants.Add(new List<GrowthVariants> { GrowthVariants.ExponentiallyIncreasing });
+        ////modifiers.Add(new List<Modifiers> { Modifiers.PlayerMaxSpeed, Modifiers.Gravity });
+        ////growthVariants.Add(new List<GrowthVariants> { GrowthVariants.ExponentiallyIncreasing });
+        ////orTriggers.Add(new List<Triggers> { Triggers.Time });
 
         //orTriggers.Add(new List<Triggers> { Triggers.PlayerOnGround });
         //andTriggers.Add(new List<Triggers> { Triggers.MouseShaking, Triggers.PlayerInAir });
@@ -96,25 +59,40 @@ public class BasicMovement : MonoBehaviour
         //orTriggers.Add(new List<Triggers> { Triggers.PlayerOnGround, Triggers.MouseShaking });
         //andTriggers.Add(new List<Triggers> { Triggers.PlayerInAir });
 
-        orTriggers.Add(new List<Triggers> { Triggers.Time });
+
 
         //andTriggersConditions.Add(new List<int> { 0, 0 });
     }
-    //void FixedUpdate()
+    //void Update()
     //{
-    //    Debug.Log(mouseShakeValue);
+    //    if (Input.GetKeyDown(KeyCode.H))
+    //    {
+    //        foreach (Modifiers modifier in modifiers[0])
+    //        {
+    //            Debug.Log(modifier);
+    //        }
+    //        foreach (GrowthVariants growthVariant in growthVariants[0])
+    //        {
+    //            Debug.Log(growthVariant);
+    //        }
+    //        foreach (Triggers orTrigger in orTriggers[0])
+    //        {
+    //            Debug.Log(orTrigger);
+    //        }
+
+    //    }
     //}
     public void Movement()
     {
-        for (int i = 0; i<andTriggersConditions.Count; i++) //reset all completed conditions
+        for (int i = 0; i<movementMenu.andTriggersConditions.Count; i++) //reset all completed conditions
         {
-            for (int y = 0; y < andTriggersConditions.Count; y++) //reset all completed conditions
+            for (int y = 0; y < movementMenu.andTriggersConditions.Count; y++) //reset all completed conditions
             {
-                andTriggersConditions[i][y] = 0;
+                movementMenu.andTriggersConditions[i][y] = 0;
             }
         }
 
-        ScanTriggers(Triggers.Time);
+        ScanTriggers(MovementMenu.Triggers.Time);
 
         //if ()
         
@@ -123,7 +101,7 @@ public class BasicMovement : MonoBehaviour
 
         if (mouseY != 0)
         {
-            ScanTriggers(Triggers.MouseShaking);
+            ScanTriggers(MovementMenu.Triggers.MouseShaking);
         }
 
         //Debug.Log(mouseX);
@@ -178,7 +156,7 @@ public class BasicMovement : MonoBehaviour
                 velocityY.y = Mathf.Sqrt(jumpHeight * -2f * gravity); //why? physics https://imgur.com/a/BQMlYuj
                 //velocityXZ = velocityXZ + something //jump speed, not impelmented
 
-                ScanTriggers(Triggers.Jump);
+                ScanTriggers(MovementMenu.Triggers.Jump);
             }
         }
 
@@ -222,23 +200,23 @@ public class BasicMovement : MonoBehaviour
         //}
     }
 
-    void ScanTriggers(Triggers trigger)
+    void ScanTriggers(MovementMenu.Triggers trigger)
     {
-        for (int i = 0; i < orTriggers.Count; i++)
+        for (int i = 0; i < movementMenu.orTriggers.Count; i++)
         {
-            if (orTriggers[i].Contains(trigger))
+            if (movementMenu.orTriggers[i].Contains(trigger))
             {
                 ScanModifierList(i);
             }
         }
-        for (int i = 0; i < andTriggers.Count; i++)
+        for (int i = 0; i < movementMenu.andTriggers.Count; i++)
         {
-            for (int y = 0; y < andTriggers[i].Count; y++)
+            for (int y = 0; y < movementMenu.andTriggers[i].Count; y++)
             {
-                if (andTriggers[i][y].Contains(trigger))
+                if (movementMenu.andTriggers[i][y].Contains(trigger))
                 {
-                    andTriggersConditions[i][y]++; //one condition of the and triggers is completed
-                    if (andTriggersConditions[i][y] == andTriggers[y].Count) ScanModifierList(y); //if triggers are completed, start the code
+                    movementMenu.andTriggersConditions[i][y]++; //one condition of the and triggers is completed
+                    if (movementMenu.andTriggersConditions[i][y] == movementMenu.andTriggers[y].Count) ScanModifierList(y); //if triggers are completed, start the code
                 }
             }
 
@@ -247,31 +225,31 @@ public class BasicMovement : MonoBehaviour
 
     void ScanModifierList(int i)
     {
-        if (modifiers[i].Contains(Modifiers.PlayerSpeed))
+        if (movementMenu.modifiers[i].Contains(MovementMenu.Modifiers.PlayerSpeed))
         {
             PlayerSpeed(i);
         }
-        if (modifiers[i].Contains(Modifiers.Gravity))
+        if (movementMenu.modifiers[i].Contains(MovementMenu.Modifiers.Gravity))
         {
             Gravity(i);
         }
-        if (modifiers[i].Contains(Modifiers.PhysUpdates))
+        if (movementMenu.modifiers[i].Contains(MovementMenu.Modifiers.PhysUpdates))
         {
             PhysUpdates(i);
         }
-        if (modifiers[i].Contains(Modifiers.JumpSpeed))
+        if (movementMenu.modifiers[i].Contains(MovementMenu.Modifiers.JumpSpeed))
         {
             JumpSpeed(i);
         }
-        if (modifiers[i].Contains(Modifiers.JumpHeight))
+        if (movementMenu.modifiers[i].Contains(MovementMenu.Modifiers.JumpHeight))
         {
             JumpHeight(i);
         }
-        if (modifiers[i].Contains(Modifiers.PlayerMaxSpeed))
+        if (movementMenu.modifiers[i].Contains(MovementMenu.Modifiers.PlayerMaxSpeed))
         {
             PlayerMaxSpeed(i);
         }
-        if (modifiers[i].Contains(Modifiers.Timescale))
+        if (movementMenu.modifiers[i].Contains(MovementMenu.Modifiers.Timescale))
         {
             Timescale(i);
         }
@@ -283,27 +261,27 @@ public class BasicMovement : MonoBehaviour
 
     void Gravity(int i)
     {
-        if (growthVariants[i].Contains(GrowthVariants.Constant))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.Constant))
         {
             gravity = gravity; //wrong, should be whichever gravity the user has input ( gravity = gravity + input );
         }
-        if (growthVariants[i].Contains(GrowthVariants.LinearlyIcreasing))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.LinearlyIcreasing))
         {
             gravity = gravity - 0.01f; //munis instead of plus because gravity is by default negative so to make it stronger (increase it) it has to go more into negative
             //Debug.Log(gravity);
         }
-        if (growthVariants[i].Contains(GrowthVariants.LinearlyDecreasing))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.LinearlyDecreasing))
         {
             gravity = gravity + 0.01f;
             //Debug.Log(gravity);
         }
-        if (growthVariants[i].Contains(GrowthVariants.ExponentiallyIncreasing))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.ExponentiallyIncreasing))
         {
             gravity = gravity * 1.001f;
             //true exponencialy increasing should be gravity*gravity
             //Debug.Log(gravity);
         }
-        if (growthVariants[i].Contains(GrowthVariants.ExponentiallyDecreasing))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.ExponentiallyDecreasing))
         {
             gravity = gravity * 0.999f;
             //Debug.Log(gravity);
@@ -318,7 +296,7 @@ public class BasicMovement : MonoBehaviour
             
         //    //Debug.Log(gravity);
         //}
-        if (growthVariants[i].Contains(GrowthVariants.Oscillation))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.Oscillation))
         {
 
         }
@@ -341,30 +319,30 @@ public class BasicMovement : MonoBehaviour
 
     void PlayerMaxSpeed(int i)
     {
-        if (growthVariants[i].Contains(GrowthVariants.Constant))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.Constant))
         {
             speed = speed * 1.001f;
             gravity = gravity; //wrong, should be whichever gravity the user has input ( gravity = gravity + input );
         }
-        if (growthVariants[i].Contains(GrowthVariants.LinearlyIcreasing)) 
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.LinearlyIcreasing)) 
         {
             speed = speed + 0.001f;
             velocityXZ = velocityXZ * speed;
             //Debug.Log(speed);
         }
-        if (growthVariants[i].Contains(GrowthVariants.LinearlyDecreasing))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.LinearlyDecreasing))
         {
             speed = speed - 0.001f;
             velocityXZ = velocityXZ * speed;
             //Debug.Log(speed);
         }
-        if (growthVariants[i].Contains(GrowthVariants.ExponentiallyIncreasing))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.ExponentiallyIncreasing))
         {
             speed = speed * 1.001f;
             velocityXZ = velocityXZ * speed;
            // Debug.Log(speed);
         }
-        if (growthVariants[i].Contains(GrowthVariants.ExponentiallyDecreasing))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.ExponentiallyDecreasing))
         {
             speed = speed * 0.999f;
             velocityXZ = velocityXZ * speed;
@@ -382,7 +360,7 @@ public class BasicMovement : MonoBehaviour
         //    //velocityXZ = velocityXZ * velocityMultiplier;
         //    //Debug.Log(velocityMultiplier);
         //}
-        if (growthVariants[i].Contains(GrowthVariants.Oscillation))
+        if (movementMenu.growthVariants[i].Contains(MovementMenu.GrowthVariants.Oscillation))
         {
 
         }

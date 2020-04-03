@@ -34,7 +34,7 @@ public class ButtonClickHandler : MonoBehaviour
         //Debug.Log(requestedFunction);
         if (buttonFunction == requestedFunction) 
         {
-            Debug.Log("test");
+            //Debug.Log("test");
             isEnabled = !isEnabled;
             
             //if (MovementModeController.enabledModes.Contains(buttonMode)) //if the enabledModes list that includes all currently enabled modes has the button's set button mode in it, it plays an animation of the button being pressed, if it doesnt include it, it reverts that animation (animation of the key being unpressed)

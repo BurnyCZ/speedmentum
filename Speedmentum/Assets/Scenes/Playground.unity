@@ -29689,7 +29689,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1710302255}
@@ -36277,6 +36277,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   movementInput: {x: 0, y: 0}
   isItJump: 0
+  movementMenu: {fileID: 1669178769}
 --- !u!143 &1101126261
 CharacterController:
   m_ObjectHideFlags: 0
@@ -57300,7 +57301,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 907279908}
