@@ -6,7 +6,7 @@ using UnityEngine;
 public enum Modes //this is global variable, each mod has its own enum value
 {
     Basic, //0
-    Car
+    Basic2
 }
 public class MovementModeController : MonoBehaviour
 { 
@@ -28,7 +28,7 @@ public class MovementModeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        enabledModes.Add(Modes.Basic2);
     }
 
     // Update is called once per frame

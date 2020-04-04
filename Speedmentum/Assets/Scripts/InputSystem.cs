@@ -53,10 +53,10 @@ public class InputSystem : MonoBehaviour
 
     }
 
-    //void MenuKey1()
-    //{
-
-    //}
+    void MenuKey1()
+    {
+        if (MovementModeController.enabledModes.Contains(Modes.Basic)) movementMenu.Button1Press();
+    }
 
     private void OnEnable()
     {
