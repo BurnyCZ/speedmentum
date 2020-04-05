@@ -124,7 +124,7 @@ public class BasicMovement : MonoBehaviour
             velocityY.y = -2f; //not 0 but -2 is because if incase it sets true too soon, it makes the player force on ground properly
         }
 
-        //old
+        
         x = movementInput.x; //getaxis function gives 1 if right key is pressed
         z = movementInput.y; //1 if forwards key is pressed
                                            //forward backwards sideways calculating

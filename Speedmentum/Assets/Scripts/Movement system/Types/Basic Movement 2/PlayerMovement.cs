@@ -42,10 +42,11 @@ public class PlayerMovement : MonoBehaviour {
     private bool readyToJump = true;
     private float jumpCooldown = 0.25f;
     public float jumpForce = 550f;
-    
+
     //Input
+    public Vector2 movementInput;
     float x, y;
-    bool jumping, sprinting, crouching;
+    public bool jumping, sprinting, crouching;
     
     //Sliding
     private Vector3 normalVector = Vector3.up;
