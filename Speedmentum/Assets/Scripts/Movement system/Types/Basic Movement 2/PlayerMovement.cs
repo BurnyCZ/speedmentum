@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour {
     
     //Other
     private Rigidbody rb;
+    private Vector3 velocityAboutToBeApplied = new Vector3(0, 0, 0);
 
     //Rotation and look
     private float xRotation;
@@ -92,6 +93,7 @@ public class PlayerMovement : MonoBehaviour {
         if (rb.velocity.magnitude > 0.5f) {
             if (grounded) {
                 rb.AddForce(orientation.transform.forward * slideForce);
+                velocityAboutToBeApplied += orientation.transform.forward * slideForce;
             }
         }
     }
@@ -104,7 +106,8 @@ public class PlayerMovement : MonoBehaviour {
     private void Movement() {
         //Extra gravity and make sure that collision is working properly, without it ground collision will be broken
         rb.AddForce(Vector3.down * Time.deltaTime * 10);
-        
+        velocityAboutToBeApplied += Vector3.down * Time.deltaTime * 10;
+
         //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
         float xMag = mag.x, yMag = mag.y;
@@ -121,6 +124,7 @@ public class PlayerMovement : MonoBehaviour {
         //If sliding down a ramp, add force down so player stays grounded and also builds speed
         if (crouching && grounded && readyToJump) {
             rb.AddForce(Vector3.down * Time.deltaTime * 3000);
+            velocityAboutToBeApplied += Vector3.down * Time.deltaTime * 3000;
             return;
         }
         
@@ -145,6 +149,11 @@ public class PlayerMovement : MonoBehaviour {
         //Apply forces to move player
         rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
         rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier);
+        velocityAboutToBeApplied += orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV;
+        velocityAboutToBeApplied += orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier;
+
+        MovementModeController.velocity = rb.velocity.magnitude;
+        MovementModeController.velocityAboutToBeApplied = velocityAboutToBeApplied.magnitude;
     }
 
     private void Jump() {
@@ -154,13 +163,23 @@ public class PlayerMovement : MonoBehaviour {
             //Add jump forces
             rb.AddForce(Vector2.up * jumpForce * 1.5f);
             rb.AddForce(normalVector * jumpForce * 0.5f);
-            
+            velocityAboutToBeApplied += Vector3.up * jumpForce * 1.5f;
+            velocityAboutToBeApplied += normalVector * jumpForce * 0.5f;
+
             //If jumping while falling, reset y velocity.
             Vector3 vel = rb.velocity;
             if (rb.velocity.y < 0.5f)
+            {
                 rb.velocity = new Vector3(vel.x, 0, vel.z);
-            else if (rb.velocity.y > 0) 
+                velocityAboutToBeApplied = new Vector3(vel.x, 0, vel.z);
+            }
+                
+            else if (rb.velocity.y > 0)
+            {
                 rb.velocity = new Vector3(vel.x, vel.y / 2, vel.z);
+                velocityAboutToBeApplied = new Vector3(vel.x, vel.y / 2, vel.z);
+            }
+                
             
             Invoke(nameof(ResetJump), jumpCooldown);
         }
@@ -194,15 +213,18 @@ public class PlayerMovement : MonoBehaviour {
         //Slow down sliding
         if (crouching) {
             rb.AddForce(moveSpeed * Time.deltaTime * -rb.velocity.normalized * slideCounterMovement);
+            velocityAboutToBeApplied += moveSpeed * Time.deltaTime * -rb.velocity.normalized * slideCounterMovement;
             return;
         }
 
         //Counter movement
         if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0)) {
             rb.AddForce(moveSpeed * orientation.transform.right * Time.deltaTime * -mag.x * counterMovement);
+            velocityAboutToBeApplied += moveSpeed * orientation.transform.right * Time.deltaTime * -mag.x * counterMovement;
         }
         if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0)) {
             rb.AddForce(moveSpeed * orientation.transform.forward * Time.deltaTime * -mag.y * counterMovement);
+            velocityAboutToBeApplied += moveSpeed * orientation.transform.right * Time.deltaTime * -mag.x * counterMovement;
         }
         
         //Limit diagonal running. This will also cause a full stop if sliding fast and un-crouching, so not optimal.
@@ -210,6 +232,7 @@ public class PlayerMovement : MonoBehaviour {
             float fallspeed = rb.velocity.y;
             Vector3 n = rb.velocity.normalized * maxSpeed;
             rb.velocity = new Vector3(n.x, fallspeed, n.z);
+            velocityAboutToBeApplied = new Vector3(n.x, fallspeed, n.z);
         }
     }
 
