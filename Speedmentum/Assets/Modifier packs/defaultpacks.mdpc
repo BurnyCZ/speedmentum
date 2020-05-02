@@ -1,0 +1,148 @@
+modifier_pack_name = "Test_of_a_lot_of_things"{
+	modifier_count = 2
+	priority = 1, priority_applying /*in case of: This modifier changes something that another modifier is changing already What to do? or combine_into_one_algo or set_avarege_value_each_time*/
+	1{
+		1{
+			values {
+				player_velocity_player_notupdating_normalized_forwards
+				player_size_sideways
+			}
+			//velocity_player_updating says that Left/right/forwards/back depends on Player camera state (load it just when triggered)
+			//player_size_sideways says to control stretching of the player only sideways
+			changing = combined{
+				constant{
+					duration = inf
+					repeating = 1
+					value = 100 /*forever constant when triggers make it true*///repeating just once
+				}
+				growing{
+					type = exponentially
+					duration = 100
+					repeating = 1
+					starting_value = 100
+					growth_index = 1.2)
+				}
+				one_value_to_other{
+					type = smoothly
+					duration = infinite
+					repeating = 1
+					bottom_value = 0
+					top_value = 120
+					interval_between_the_values = 50 /*from 0 speed to 120 in 1 s if tickrate is 50*/
+				}
+				oscillating_between_two_values{
+					type = triangle
+					duration = 69420
+					repeating = 1
+					bottom_value = 100
+					top_value = 300
+					iteration_duration = 100
+				}
+				jump_math{
+					duration = inf
+					strength = 3
+				}
+			}
+		}
+		2{
+			values = timescale
+			changing = serial{
+				constant{
+					duration = 250
+					repeating = 1
+					value = 1
+				},
+				growing{
+					type = linearly
+					duration = 250
+					repeating = 1: with  + 1 = inf
+					starting_value = 1
+					growth_index = 0
+				}
+				growing{
+					type = exponentially
+					duration = 100
+					repeating = 1: with  - 1 = inf
+					starting_value = 100
+					growth_index = 1.2
+					/*:with+1=inf a with-1=inf znamena ze druhy a treti se budou spolecne loopovat nekonecne, takze nejdriv bude 250x constant a pak se budou nekonecne stridat*/
+					/*lineatly a exp., dalsi moznost je :with+1=10 a with-1=100 kde by se nejdriv prvni s druhym opakovalo 10x a to druhy pak samo 90x*/
+				}				
+			}			
+		}
+		triggers {
+			player_in_air
+			mouse_shaking_bool
+			key_press_E
+		}
+		triggers_relation = mixed = (1 and 2)or 3 /*Alternatives: or, and */
+		reset_values = true_values_before /*Alternative: true_starting_values, false */
+	}
+	2{
+		1{
+			values = collision_with_walls
+			changing{
+				bool{
+					duration = inf
+					value = false
+				}
+			} 
+			triggers{
+				time
+				jump
+			} 
+			triggers_relation = stacking
+		}
+	}
+	reset_values = true_values_before;
+}	
+/* default values = (priority = 1, priority_applying),(x_reset_values = true_values_before;), (x_triggers_relation = and;)*/
+modifier_pack_name = "Basic_physics"{
+	modifier_count = 1;
+	//priority = 1, priority_applying;
+	{
+		1{
+			1{
+				values{
+					timescale
+				} 
+				changing{
+					constant{
+						duration = inf
+						repeating = 1
+						value = 1
+					}
+				} 
+			}
+			2{
+				values{
+					tickrate
+				}
+				changing {
+					constant{
+						duration = inf
+						repeating = 1
+						value = 50
+					}
+				}
+			}
+			3{
+				values{
+					gravity
+				} 
+				changing{
+					constant{
+						duration = inf
+						repeating = 1
+						value = 20
+					}
+				}
+			}
+			triggers{
+				time
+			}
+			//reset_values = true_values_before;
+			//triggers_relation = and;
+		}
+	}
+}
