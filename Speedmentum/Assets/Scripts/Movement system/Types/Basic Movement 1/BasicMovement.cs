@@ -124,7 +124,7 @@ public class BasicMovement : MonoBehaviour
             velocityY.y = -2f; //not 0 but -2 is because if incase it sets true too soon, it makes the player force on ground properly
         }
 
-        
+
         x = movementInput.x; //getaxis function gives 1 if right key is pressed
         z = movementInput.y; //1 if forwards key is pressed
                                            //forward backwards sideways calculating
@@ -143,7 +143,7 @@ public class BasicMovement : MonoBehaviour
 
 
 
-        if (isGrounded) velocityY.y = 0;
+        //if (isGrounded) velocityY.y = 0;
 
 
         //G R A V I T Y nejpozději, muze byt kdykoliv pred tim
@@ -151,20 +151,16 @@ public class BasicMovement : MonoBehaviour
         if (isItJump)
         {
             //if (Input.GetButton("Jump") && isGrounded) //jumping
+
             if (isGrounded)
             {
                 velocityY.y = Mathf.Sqrt(jumpHeight * -2f * gravity); //why? physics https://imgur.com/a/BQMlYuj
                 //velocityXZ = velocityXZ + something //jump speed, not impelmented
-
+                //Debug.Log("velocityY.y: " + velocityY.y);
+                
                 ScanTriggers(MovementMenu.Triggers.Jump);
             }
         }
-
-
-
-
-
-        
 
         if (!isGrounded) velocityY.y = velocityY.y + gravity * Time.deltaTime;
 
