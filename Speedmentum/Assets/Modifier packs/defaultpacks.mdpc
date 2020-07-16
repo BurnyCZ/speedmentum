@@ -76,7 +76,8 @@ modifier_pack_name = "Test_of_a_lot_of_things"{
 			key_press_E
 		}
 		triggers_relation = mixed = (1 and 2)or 3 /*Alternatives: or, and */
-		reset_values = true_values_before /*Alternative: true_starting_values, false */
+		reset_values = true
+		/*Alternative: true_starting_values, false */
 	}
 	2{
 		1{
@@ -92,9 +93,10 @@ modifier_pack_name = "Test_of_a_lot_of_things"{
 				jump
 			} 
 			triggers_relation = stacking
+			reset_values = true;
 		}
 	}
-	reset_values = true_values_before;
+	
 }	
 /* default values = (priority = 1, priority_determines_if_applied_or_not),(x_reset_values = true_values_before;), (x_triggers_relation = and;)*/
 modifier_pack_name = "Basic_physics"{
@@ -141,7 +143,7 @@ modifier_pack_name = "Basic_physics"{
 			triggers{
 				time
 			}
-			//reset_values = true_values_before;
+			//reset_values = true;
 			//triggers_relation = and;
 		}
 	}
