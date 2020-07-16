@@ -1,0 +1,89 @@
+Poosible bhop movvement implementation logics:
+1.
+
+
+name = Basic physics:
+- priority: 100, overwrite conflicting values //by default gets set to 1, but if new one emerges, it gets set to 2
+1: //by default
+- values = timescale, type = constant, value = 1, duration = infinite, repeating = true //by default
+- values = tickrate, type = constant, value = 100, duration = infinite
+- values = gravity, type = constant, value = 20, duration = infinite
+- triggers = time
+- triggers relation = and //by default
+- reset values = true //by default
+
+//make basic movement bhop compatible, starting value by se mělo přizpůsobit current value a od toho přičítat, aby se to nesekalo, a muze byt variace kde to pujde into infinity, a mouseshake
+name = Basic movement:
+1:
+- values = player's velocity(camera dependant every phys update, normalised, forwards), type = going from one value to another one smoothly, starting value = 0, ending value = 120, interval between values = 100, duration = infinite
+- triggers = KeyPress(W)
+2:
+- values = player's velocity(camera dependant every phys update, normalised, backwards), type = going from one value to another one smoothly, starting value = 0, ending value = 120, interval between values = 100, duration = infinite
+- triggers = KeyPress(S)
+3:
+- values = player's velocity(camera dependant every phys update, normalised, left), type = going from one value to another one smoothly, starting value = 0, ending value = 120, interval between values = 100, duration = infinite
+- triggers = KeyPress(A)
+4:
+- values = player's velocity(camera dependant every phys update, normalised, right), type = going from one value to another one smoothly, starting value = 0, ending value = 120, interval between values = 100, duration = infinite
+- triggers = KeyPress(D)
+
+name = Basic movement simple:
+1:
+- values = player's velocity(camera dependant every phys update, normalised, forwards), type = constant, value = 120,  duration = infinite
+- triggers = KeyPress(W)
+2:
+- values = player's velocity(camera dependant every phys update, normalised, backwards), type = constant, value = 120,  duration = infinite
+- triggers = KeyPress(S)
+3:
+- values = player's velocity(camera dependant every phys update, normalised, left), type = constant, value = 120,  duration = infinite
+- triggers = KeyPress(A)
+4:
+- values = player's velocity(camera dependant every phys update, normalised, right), type = constant, value = 120,  duration = infinite
+- triggers = KeyPress(D)
+
+name = Default player:
+- values = player's hitbox type, type = square, duration = infinite 
+- values = player's hitbox size(up), type = constant, value = 0.9, duration = infinite
+- values = player's hitbox size(down), type = constant, value = 0.9, duration = infinite
+- values = player's hitbox size(right), type = constant, value = 0.3, duration = infinite
+- values = player's hitbox size(left), type = constant, value = 0.3, duration = infinite
+- values = player's hitbox size(back), type = constant, value = 0.3, duration = infinite
+- values = player's hitbox size(forward), type = constant, value = 0.3, duration = infinite
+- values = player's texture size(up), type = constant, value = 0.9, duration = infinite
+- values = player's texture size(down), type = constant, value = 0.9, duration = infinite
+- values = player's texture size(right), type = constant, value = 0.3, duration = infinite
+- values = player's texture size(left), type = constant, value = 0.3, duration = infinite
+- values = player's texture size(back), type = constant, value = 0.3, duration = infinite
+- values = player's texture size(forward), type = constant, value = 0.3, duration = infinite
+- values = camera position(up), type = constant, value = 0.7, duration = infinite
+- values = camera position(forward), type = constant, value = 0.3, duration = infinite
+- triggers = time
+
+name = Crouching
+- priority: 1, overwrite conflicting values
+- values = player's hitbox size(up), type = constant, value = 0.4, duration = infinite
+- values = player's texture size(up), type = constant, value = 0.4, duration = infinite
+- values = camera position(up), type = constant, value = 0.2, duration = infinite
+- triggers = KeyPress(CTRL)
+
+name = Classic jumping:
+- values = player's velocity(camera dependant every phys update, not normalised, upwards), type = jump math, value = 3, duration = 1 tick
+- triggers = Player on ground, KeyPress(Space)
+- triggers relation = and
+
+name = Infinite jumping:
+- values = player's velocity(camera dependant every phys update, not normalised, upwards), type = jump math, value = 3, duration = infinite
+- triggers = Player on ground, KeyPress(Space)
+- triggers relation = and
+
+name = Jump Math Jetpack:
+- values = player's velocity(camera dependant every phys update, not normalised, upwards), type = jump math, value = 3, duration = infinite
+- triggers = KeyPress(Space)
+
+name = Jetpack:
+- values = player's velocity(camera dependant every phys update, not normalised, upwards), type = going from one value to anther one smoothly, starting value = 0, ending value 120, interval between values = 100, duration = infinite
+- triggers = KeyPress(Space)
+
+ABH
+
+Bhop

@@ -1,6 +1,6 @@
 modifier_pack_name = "Test_of_a_lot_of_things"{
 	modifier_count = 2
-	priority = 1, priority_applying /*in case of: This modifier changes something that another modifier is changing already What to do? or combine_into_one_algo or set_avarege_value_each_time*/
+	priority = 1, priority_determines_if_applied_or_not /*in case of: This modifier changes something that another modifier is changing already What to do? or combine_into_one_algo or set_avarege_value_each_time*/
 	1{
 		1{
 			values {
@@ -96,10 +96,10 @@ modifier_pack_name = "Test_of_a_lot_of_things"{
 	}
 	reset_values = true_values_before;
 }	
-/* default values = (priority = 1, priority_applying),(x_reset_values = true_values_before;), (x_triggers_relation = and;)*/
+/* default values = (priority = 1, priority_determines_if_applied_or_not),(x_reset_values = true_values_before;), (x_triggers_relation = and;)*/
 modifier_pack_name = "Basic_physics"{
 	modifier_count = 1;
-	//priority = 1, priority_applying;
+	//priority = 1, priority_determines_if_applied_or_not;
 	{
 		1{
 			1{
